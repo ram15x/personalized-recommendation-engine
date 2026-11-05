@@ -2,7 +2,7 @@
 
 ## Goal
 
-The assignment specifies a two-stage recommendation system: retrieve a few hundred eligible candidates, then score and order them for a user. The local service currently has a popularity default, explicit genre-based content fallback, and an optional sparse ItemKNN path. The experimental two-tower and DCN paths can be enabled in the native API, but their recorded development comparisons were below their respective baselines. The default Docker demo uses ItemKNN, genre and popularity fallbacks with optional Redis caching. Triton and Airflow have prototype code but have not been run in their real runtimes; the A/B API is a local prototype, not a real-user experiment.
+The assignment specifies a two-stage recommendation system: retrieve a few hundred eligible candidates, then score and order them for a user. The local service currently has a popularity default, explicit genre-based content fallback, and an optional sparse ItemKNN path. The experimental two-tower and DCN paths can be enabled in the native API, but their recorded development comparisons were below their respective baselines. The default Docker demo uses ItemKNN, genre and popularity fallbacks with optional Redis caching. The manual Airflow DAG was discovered by an Airflow 3 runtime, but no retraining task was executed. Triton has prototype code and contract tests only; the server and model inference remain unverified. The A/B API is a local prototype, not a real-user experiment.
 
 ## Target data and model flow
 
@@ -59,7 +59,7 @@ The FastAPI service implements popularity, user-supplied genre matching, and opt
 | Wide & Deep ranker | Not present | No second deep model will be added before the DCN path has a measured, time-safe comparison. |
 | Redis | Optional Redis-py response cache through `NEXVIA_REDIS_URL` | Versioned keys include request inputs and artifact/catalog hashes; 300-second TTL; startup ping when configured; fail-open cache operations with health error reporting. Fake-client tests and an actual Redis-backed Docker Compose run passed; `/health` reported cache enabled without error. |
 | Triton | Experimental Python-backend adapter and model configuration | Stub tests passed; real Triton startup, model loading and inference are NOT VERIFIED. See `docs/triton.md`. |
-| Airflow | Manual-only DAG and retraining helper | Helper tests and syntax checks passed; execution in Airflow is NOT VERIFIED. See `docs/airflow.md`. |
+| Airflow | Manual-only DAG and retraining helper | Airflow 3 standalone started and listed the DAG without import errors; the DAG was paused and no task ran. See `docs/airflow.md`. |
 | Online A/B and CTR | Opt-in local assignment, served-response and click-recording prototype | Synthetic checks passed; no real-user experiment or CTR result exists. See `docs/experiment.md`. |
 
 ## Saved two-stage compatibility check

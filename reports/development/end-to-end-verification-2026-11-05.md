@@ -43,7 +43,7 @@ python -m pytest -q -p no:cacheprovider --basetemp <temporary-directory>
 
 - The Docker demo currently serves ItemKNN with popularity fallback and explicit genre matching. It does not serve the learned TFRS/FAISS retriever or the candidate DCN rankers.
 - Learned-model comparisons and ItemKNN metrics use development panels reused during model work. They are not independent test results and do not establish online lift.
-- Triton and Airflow have prototype code, but their real runtimes were not started in this check.
+- At the time of this initial check, Triton and Airflow runtimes were not started. The Airflow follow-up below supersedes the Airflow portion; Triton remains unverified.
 - A/B assignment and click-recording code has synthetic tests only. No real users, impressions, clicks, or CTR measurements are available.
 - No MovieLens Spark feature-table run was completed. No training or data download occurred in this verification pass.
 - At the time of this verification run, before the public repository was created, the Project-2 folder had local history but no configured GitHub remote. The public release was published later; see the current README and requirements status.
@@ -51,7 +51,7 @@ python -m pytest -q -p no:cacheprovider --basetemp <temporary-directory>
 
 ## Status
 
-The local Docker demo and its three user-facing recommendation strategies are verified over HTTP. The entire assignment is not complete: Spark runtime validation, real Triton/Airflow execution, genuine online A/B measurement, GitHub publication, presentation, reflection, and portal submission remain outstanding. Do not describe this as production-ready or as a proven improvement over an independent test set.
+The local Docker demo and its three user-facing recommendation strategies are verified over HTTP. The entire assignment is not complete: Spark runtime validation, Triton inference, execution of an Airflow retraining task, genuine online A/B measurement, presentation, reflection, and portal submission remain outstanding. Do not describe this as production-ready or as a proven improvement over an independent test set.
 
 ## Additional current-state checks
 
@@ -68,4 +68,12 @@ Fresh test reruns on the current folder: the non-Spark suite returned **63 passe
 ## Same-day Docker recheck
 
 Using the already-cached `project-2-api` and `redis:7-alpine` images with `docker compose up -d --no-build`, live HTTP returned `/health` status `ok`, catalog size 13,173, ItemKNN loaded, and Redis cache enabled. `GET /` returned HTTP 200. `POST /recommend` for history item 318 returned five recommendations with strategy `itemknn_cosine` and excluded 318. A Drama-preference request returned the `user_genre_content` strategy and all five results matched Drama. An empty request returned five results using `training_period_popularity`. The API, Redis container, and Compose network were removed with `docker compose down --remove-orphans`. No images or data were downloaded.
+
+## Airflow and Triton runtime follow-up
+
+On 5 November, the official `apache/airflow:slim-3.3.1-python3.12` image was pulled (about 266 MB compressed according to Docker Hub) and run with the project's `airflow/dags` folder mounted read-only. `airflow standalone` initialized a temporary SQLite metadata database. `airflow dags list` showed `nexvia_manual_retraining`; `airflow dags list-import-errors` returned `No data found`. The DAG was paused, and no DAG task, preflight, or training was triggered. The temporary container and downloaded image were removed after the check.
+
+Triton was not run. The NVIDIA registry manifest for `nvcr.io/nvidia/tritonserver:25.10-py3-min` totals about 4.5 GB of compressed image layers; the `26.10-py3` manifest totals about 8.8 GB. No Triton image was downloaded. The Python backend adapter therefore remains unverified in a Triton server. Its contract tests do not establish runtime inference.
+
+The full suite was rerun on 5 November from the existing Python 3.10 verification environment: **64 passed, 2 failed**. Both failures are Spark Parquet-write tests on Windows; the errors report missing `HADOOP_HOME`/`hadoop.home.dir` and `winutils.exe`. No new training or dataset download occurred.
 
