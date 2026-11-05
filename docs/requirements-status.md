@@ -9,7 +9,7 @@ The assignment details below were transcribed from Nexvia portal text and rechec
 - **Current full test run:** 64 passed and 2 Spark tests failed. With local networking allowed, both failures reached Spark and stopped on Windows because HADOOP_HOME and hadoop.home.dir are unset and winutils.exe is missing. In the unprivileged run the Java gateway also hit a loopback socket permission error. This is an environment failure; it does not establish that the Spark Parquet job works.
 - **Follow-up non-Spark run:** 63 passed in 19.79 seconds with `test_spark_prepare_features.py` excluded. This confirms the non-Spark test set only; it does not change the failed Spark status.
 - **Research results:** ItemKNN is the demo's personalized path, with popularity fallback and explicit genre matching. The learned retrieval/ranking candidates did not pass their recorded promotion comparisons and are not served by the Docker demo. Metrics are development-panel results, not independent test results.
-- **Still incomplete:** the current Spark Parquet job has not passed its runtime tests; a full MovieLens Spark feature run was not completed; Triton and Airflow have prototype code but no runtime verification; the A/B endpoint has only synthetic smoke events and there is no real traffic or CTR; a local Git repository has been initialized but no commit or remote exists. Presentation, reflection, and portal submission are separate deliverables.
+- **Still incomplete:** the current Spark Parquet job has not passed its runtime tests; a full MovieLens Spark feature run was not completed; Triton and Airflow have prototype code but no runtime verification; the A/B endpoint has only synthetic smoke events and there is no real traffic or CTR; the local Git repository has one commit on `main` but no configured remote or GitHub sync. Presentation, reflection, and portal submission are separate deliverables.
 
 This snapshot supersedes older status statements below where they describe the pre-PySpark-install test state or the earlier Docker default.
 
@@ -61,7 +61,7 @@ The local MovieLens 25M `ratings.csv` is 678,260,987 bytes. The smaller `ml-late
 
 ## What is missing or not established
 
-- **GitHub/source-control sync:** this Project-2 folder has no `.git` directory; no remote, commit, or GitHub sync is configured or verified.
+- **GitHub/source-control sync:** this folder has one local commit on `main`, but no configured remote or GitHub sync.
 - **Spark:** a bounded feature-table job and separate pinned dependency file exist. Its current Windows runtime tests fail at Hadoop's local Parquet writer because winutils.exe is not installed. A full MovieLens Spark run has not been completed. The job does not replace the existing pandas/Colab modeling pipeline.
 - **Feature-based retrieval:** the existing towers use user and item ID embeddings. Movie genre/content features are not part of the current model.
 - **Candidate-stage quality:** neural retrieval/BPR candidates remained below popularity on the measured warm-user comparisons. In the corrected 2,000-user 60/70 sample, ItemKNN's matched Recall@100 and NDCG@10 paired intervals were above popularity; the Recall@10 interval crossed zero. The temporal window has been reused and ItemKNN was selected after earlier results, so this is development evidence, not independent confirmation.

@@ -8,7 +8,7 @@ The target system and what is implemented versus pending are described in [the a
 
 The local Docker demo uses ItemKNN for liked movie history, popularity when there is no usable history, explicit genre matching when genres are supplied, and Redis response caching. A native experimental API loads the saved two-tower and DCN artifacts, but the tested two-tower-to-DCN call fell back because some retrieved items were unsupported by the ranker. The DCN candidate model reranked ItemKNN candidates in the opt-in A/B route, but its recorded offline comparison was below ItemKNN. Neither learned path is promoted as the default. The current full suite has two Spark Parquet-write failures on Windows because Hadoop `winutils.exe` is unavailable; the other 63 tests pass. Triton and Airflow runtimes and genuine online A/B outcomes are not verified. See the status note and dated verification report for exact evidence.
 
-The local Git repository has been initialized, but has no commit or remote yet. Dataset files, model weights, indexes, and per-user exports are excluded from Git. A clean clone must obtain its own MovieLens files and regenerate the local popularity and ItemKNN artifacts before it can build the full Docker demo. GroupLens says it typically does not permit public redistribution of MovieLens datasets; do not commit the ratings file or derived user-level exports. See the [GroupLens dataset terms](https://grouplens.org/datasets/movielens/) and the included usage notes.
+The local Git repository has one commit on `main` and no configured remote, so it is not published or synced to GitHub. Dataset files, model weights, indexes, and per-user exports are excluded from Git. A clean clone must obtain its own MovieLens files and regenerate the local popularity and ItemKNN artifacts before it can build the full Docker demo. GroupLens says it typically does not permit public redistribution of MovieLens datasets; do not commit the ratings file or derived user-level exports. See the [GroupLens dataset terms](https://grouplens.org/datasets/movielens/) and the included usage notes.
 
 ## Run it
 
@@ -130,7 +130,7 @@ This is an offline rating-based experiment. A high rating is a proxy for prefere
 
 ## Current development status
 
-This folder has a local Git repository, but it has no commit or configured remote yet, so it is not synced to GitHub.
+This folder has one local Git commit on `main` and no configured remote, so it is not synced to GitHub.
 
 The folder also contains ID-only TensorFlow Recommenders two-tower retrieval pilots with exact FAISS inner-product search. The saved 500,000-interaction pilot scored below popularity on its reused 2,000-user validation cohort, especially for users with learned embeddings. A fixed genre-profile candidate diagnostic was also below popularity on that same cohort. Neither result is an independent test.
 

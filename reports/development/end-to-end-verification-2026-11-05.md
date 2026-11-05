@@ -46,7 +46,7 @@ python -m pytest -q -p no:cacheprovider --basetemp <temporary-directory>
 - Triton and Airflow have prototype code, but their real runtimes were not started in this check.
 - A/B assignment and click-recording code has synthetic tests only. No real users, impressions, clicks, or CTR measurements are available.
 - No MovieLens Spark feature-table run was completed. No training or data download occurred in this verification pass.
-- The Project-2 folder has no .git directory or configured GitHub remote. The local project is not synced to GitHub.
+- The Project-2 folder has one local commit on `main`, but no configured GitHub remote. The local project is not synced to GitHub.
 - At inspection, the folder contained 267 files totaling 891.92 MiB; data/ml-25m/ratings.csv accounted for 646.84 MiB. The ratings file is the source needed for the full offline experiments; the Docker demo excludes it from the build context.
 
 ## Status
@@ -59,5 +59,5 @@ The Compose check was repeated against the current folder on 5 November. `docker
 
 The native API was also started with the saved retrieval, ItemKNN, and DCN artifacts. `/health` reported the two-tower model, ranker, and experiment store loaded. A live `/experimental/two-tower` request for MovieLens development user 139 returned five retrieved items with `strategy=experimental_two_tower` and `reason=unknown_items`; the DCN did not rerank that set because its training support did not cover every retrieved item. The live `/experimental/ab/recommend` endpoint assigned one synthetic participant to each arm: A used `itemknn_cosine`, B used `experimental_dcn`. One synthetic click was sent for the first item in each response, and `/experimental/ab/summary` returned five item positions and one click per arm (item CTR 0.2 each). This verifies endpoint plumbing only. It is not real user behavior, an online result, or a valid CTR estimate. The temporary SQLite event database was removed after the smoke check.
 
-Fresh test reruns on the current folder: the non-Spark suite returned **63 passed in 17.96 seconds**. The Spark module returned **1 passed, 2 failed**; the two Parquet-writing tests fail with `HADOOP_HOME and hadoop.home.dir are unset` and the Hadoop Windows `winutils.exe` requirement. No full MovieLens Spark job was run. The repository was initialized locally; no commit or remote was created.
+Fresh test reruns on the current folder: the non-Spark suite returned **63 passed in 17.96 seconds**. The Spark module returned **1 passed, 2 failed**; the two Parquet-writing tests fail with `HADOOP_HOME and hadoop.home.dir are unset` and the Hadoop Windows `winutils.exe` requirement. No full MovieLens Spark job was run. The local repository now has one commit on `main`; no remote was configured and nothing was published to GitHub.
 
