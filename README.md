@@ -1,4 +1,6 @@
 # Large-Scale Personalized Recommendation Engine
+The project overview is live at [GitHub Pages](https://ram15x.github.io/personalized-recommendation-engine/). The hosted page is informational only; the interactive recommender remains local.
+
 An informational project page is configured in [site/](site/) for free static hosting through Render. It does not serve recommendations or include MovieLens data. The interactive API remains a local demo; serving the MovieLens-derived catalog and model publicly requires separate redistribution permission. See [render.yaml](render.yaml).
 
 
