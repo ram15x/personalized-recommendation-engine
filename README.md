@@ -1,4 +1,6 @@
 # Large-Scale Personalized Recommendation Engine
+An informational project page is configured in [site/](site/) for free static hosting through Render. It does not serve recommendations or include MovieLens data. The interactive API remains a local demo; serving the MovieLens-derived catalog and model publicly requires separate redistribution permission. See [render.yaml](render.yaml).
+
 
 A two-stage recommendation prototype: retrieve a short candidate list, then rank it. The current code is an offline research prototype, not a production recommender.
 
