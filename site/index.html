@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A research prototype for time-aware movie recommendation, candidate retrieval, and ranking evaluation.">
+  <title>Movie Recommendation Research</title>
+  <style>
+    :root { color-scheme: dark; --bg:#10151c; --panel:#171f29; --line:#2b3745; --text:#edf3f8; --muted:#a9b7c6; --accent:#82dbc4; --accent2:#92b9ff; }
+    * { box-sizing:border-box; }
+    body { margin:0; font:16px/1.65 Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; color:var(--text); background:radial-gradient(ellipse at 80% 0%, #1c3b48 0, transparent 35%), var(--bg); }
+    a { color:var(--accent); text-underline-offset:4px; }
+    .wrap { width:min(1080px, calc(100% - 40px)); margin:auto; }
+    header { display:flex; justify-content:space-between; align-items:center; padding:22px 0; border-bottom:1px solid var(--line); }
+    .brand { font-weight:700; letter-spacing:.02em; }
+    nav { display:flex; gap:22px; font-size:.92rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    .hero { padding:76px 0 52px; max-width:800px; }
+    .eyebrow { color:var(--accent); text-transform:uppercase; letter-spacing:.14em; font-size:.76rem; font-weight:700; }
+    h1 { font-size:clamp(2.5rem,7vw,5rem); line-height:1.04; letter-spacing:-.055em; margin:16px 0 22px; }
+    .lead { color:var(--muted); font-size:1.16rem; max-width:700px; }
+    .actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:28px; }
+    .button { display:inline-flex; padding:11px 17px; border-radius:8px; border:1px solid var(--line); color:var(--text); text-decoration:none; font-weight:650; }
+    .button.primary { background:var(--accent); border-color:var(--accent); color:#10241f; }
+    .notice { padding:17px 19px; border:1px solid #856b35; background:#302a1c; border-radius:10px; color:#f1e2bc; margin:12px 0 46px; }
+    .notice strong { color:#fff0ca; }
+    section { padding:30px 0; }
+    h2 { font-size:1.6rem; margin:0 0 16px; letter-spacing:-.02em; }
+    .grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:14px; }
+    .card { background:linear-gradient(145deg, #1a2531, #151c25); border:1px solid var(--line); border-radius:12px; padding:21px; }
+    .card h3 { margin:0 0 7px; font-size:1.02rem; }
+    .card p, .muted { color:var(--muted); margin:0; }
+    .flow { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; counter-reset:step; }
+    .step { border-top:2px solid var(--accent2); padding:13px 12px 0 0; color:var(--muted); }
+    .step:before { counter-increment:step; content:"0" counter(step); color:var(--accent2); font-weight:700; display:block; margin-bottom:8px; }
+    .step strong { display:block; color:var(--text); }
+    .caveat { font-size:.93rem; color:var(--muted); }
+    footer { border-top:1px solid var(--line); margin-top:38px; padding:23px 0 36px; color:var(--muted); font-size:.9rem; }
+    @media (max-width:720px) { .grid {grid-template-columns:1fr;} .flow {grid-template-columns:1fr 1fr;} header {align-items:flex-start; gap:10px; flex-direction:column;} nav {gap:15px; flex-wrap:wrap;} .hero {padding-top:52px;} }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">Recommendation Systems · Research Prototype</div>
+      <nav aria-label="Main navigation">
+        <a href="#system">System</a><a href="#evaluation">Evaluation</a><a href="https://github.com/ram15x/personalized-recommendation-engine">Source</a>
+      </nav>
+    </header>
+    <main>
+      <section class="hero">
+        <div class="eyebrow">Movie recommendation research</div>
+        <h1>From watched movies to a ranked shortlist.</h1>
+        <p class="lead">A practical study of recommendation pipelines using temporal evaluation, a popularity baseline, item-to-item retrieval, and experiments with learned retrieval and ranking.</p>
+        <div class="actions">
+          <a class="button primary" href="https://github.com/ram15x/personalized-recommendation-engine">Explore the source on GitHub</a>
+          <a class="button" href="https://github.com/ram15x/personalized-recommendation-engine#run-it">Run the local demo</a>
+        </div>
+      </section>
+      <aside class="notice"><strong>Hosted page:</strong> this is a project overview, not a live recommender. The interactive API remains a local demo because the MovieLens usage terms do not grant permission to redistribute the dataset or serving files publicly.</aside>
+      <section id="system">
+        <h2>System at a glance</h2>
+        <div class="grid">
+          <article class="card"><h3>Candidate retrieval</h3><p>ItemKNN cosine similarity finds related titles from a liked or highly rated movie history. Popularity provides a fallback when the history cannot be used.</p></article>
+          <article class="card"><h3>Transparent fallback</h3><p>Users can also request a list by genre. This path uses movie metadata and is separate from collaborative filtering.</p></article>
+          <article class="card"><h3>Engineering</h3><p>FastAPI serves recommendations; a small browser interface calls the API. Docker Compose runs the local demo and Redis cache.</p></article>
+        </div>
+      </section>
+      <section>
+        <h2>Workflow</h2>
+        <div class="flow">
+          <div class="step"><strong>Prepare</strong>Build time-aware training and evaluation windows from MovieLens ratings.</div>
+          <div class="step"><strong>Compare</strong>Measure popularity and retrieval using ranking metrics and paired user comparisons.</div>
+          <div class="step"><strong>Serve</strong>Run the selected ItemKNN candidate with explicit fallback behavior in the local API.</div>
+          <div class="step"><strong>Inspect</strong>Keep experimental learned models separate when they do not pass the comparison gate.</div>
+        </div>
+      </section>
+      <section id="evaluation">
+        <h2>How to read the results</h2>
+        <p class="muted">The project reports offline ranking measures such as Recall@K and NDCG@K. Movie ratings are preference proxies, not click events. Development windows were reused during model selection, so they are not independent confirmation. Online A/B results and click-through rate are not claimed.</p>
+      </section>
+      <section>
+        <h2>Try it locally</h2>
+        <p class="muted">Clone the repository, obtain MovieLens directly from GroupLens under its terms, prepare the local serving artifacts, then follow the Docker Compose instructions in the README. Dataset and model files are intentionally excluded from this public site and repository.</p>
+        <p class="caveat">This is an educational research prototype, not a production recommendation service.</p>
+      </section>
+    </main>
+    <footer>Built as an individual recommendation-systems project · <a href="https://github.com/ram15x/personalized-recommendation-engine">GitHub source and technical notes</a></footer>
+  </div>
+</body>
+</html>
