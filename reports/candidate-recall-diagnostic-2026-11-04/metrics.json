@@ -1,0 +1,50 @@
+{
+  "evaluation": "inference-only candidate recall diagnostic",
+  "panel": "C:\\Users\\ramna\\OneDrive\\Desktop\\Projects\\Nexvia Internship\\Project-2\\reports\\retrieval-pilot\\validation_users.csv",
+  "panel_users": 2000,
+  "eligible_users": 2000,
+  "panel_reused_during_prior_development": true,
+  "official_test_used": false,
+  "training_or_downloads": false,
+  "target_definition": "unseen validation-period ratings >= 4; global temporal cutoffs from baseline report",
+  "candidate_cutoffs": [
+    100,
+    200,
+    500
+  ],
+  "retrieval_run": "C:\\Users\\ramna\\OneDrive\\Desktop\\Projects\\Nexvia Internship\\Project-2\\reports\\retrieval-pilot",
+  "retrieval_stage": "pilot",
+  "training_interactions": 500000,
+  "indexed_items": 12224,
+  "training_catalog_items": 34461,
+  "indexed_catalog_coverage": 0.35471982821160153,
+  "users_with_embedding": 528,
+  "users_without_embedding_use_popularity": 1472,
+  "retrieval_all_users": {
+    "users": 2000,
+    "relevant_user_item_pairs": 137725,
+    "recall@100": 0.2331146379906342,
+    "recall@200": 0.3101931711029537,
+    "recall@500": 0.44845981171169946
+  },
+  "popularity_all_users": {
+    "users": 2000,
+    "relevant_user_item_pairs": 137725,
+    "recall@100": 0.2514817799240735,
+    "recall@200": 0.3353982631004703,
+    "recall@500": 0.48928101471061364
+  },
+  "retrieval_trained_users": {
+    "users": 528,
+    "relevant_user_item_pairs": 18209,
+    "recall@100": 0.0444165300606019,
+    "recall@200": 0.0723950022966507,
+    "recall@500": 0.13596815784553537
+  },
+  "retrieval_item_vectors_sha256": "12f155efc605fe204726892111927127a2cb459145dc1725e2d8f545ed5e63bf",
+  "saved_faiss_index_sha256_not_loaded": "267bde9620a87040710f6d7e8f06573737228097075066ad9aa72ac54a002f58",
+  "panel_file_sha256": "65e7f9b32bd3808f7d710faa1e0cb3b57695c7306f8d7ae59f45d201def1bd4c",
+  "ratings_sha256": "9c85525758597dca76e8d98cebb9c13e018c2317b09a0878b6d383179526e385",
+  "scoring_note": "Scores were recomputed with NumPy float32 dot products from the saved user/item vectors. The saved FAISS binary was hashed but not loaded; binary-index equivalence is therefore not verified.",
+  "reused_validation_warning": "Development diagnostic only. The same user cohort was used by earlier candidate comparisons; these results are not an independent test."
+}

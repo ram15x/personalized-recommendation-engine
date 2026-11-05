@@ -1,0 +1,8 @@
+{
+  "embeddings_sha256": "12f155efc605fe204726892111927127a2cb459145dc1725e2d8f545ed5e63bf",
+  "files_sha256": {
+    "ranker.keras": "3243c548bdfa5831fc7a6f0b2c0fe553314b13c7692d9f6141804e809e356b45",
+    "normalization.npz": "61f8d322459b73d98986096366a9e4c5cc9ebeb9c59d8f79e1e6e27855658e7b",
+    "metrics.json": "c7dd38949790de876f28528840e458d3d47a0ab8e0514a4909bcad9949942aac"
+  }
+}

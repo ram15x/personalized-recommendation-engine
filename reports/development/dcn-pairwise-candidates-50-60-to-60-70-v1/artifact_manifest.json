@@ -1,0 +1,8 @@
+{
+  "files_sha256": {
+    "dcn_pairwise_candidate_ranker.keras": "b8ab37842e7808a7386313c41dadb3657b86d60e7cac1451aa44280516cba159",
+    "feature_mapping.npz": "b40e11cabce3cc1a5fc311ceaed58b3743ec73af69bf348e05b2fed8f38b3ade",
+    "metrics.json": "a8b7e8bcd23a5f8bb43e841047e41d5f8781f78c350374f09707c1e8ae800746",
+    "per_user_metrics.jsonl": "e2e7d6eff68bf1b76ba9c79d9a06936f66fe084c550a0a2b48e7d6ef5c336235"
+  }
+}

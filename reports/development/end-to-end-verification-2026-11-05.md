@@ -1,0 +1,63 @@
+# Project 2 — Local end-to-end verification
+Date: 5 November 2026
+
+## What passed
+
+- Docker Desktop engine: Docker 29.8.0 / Docker Desktop 4.92.0, Linux engine.
+- Command: docker compose build --pull=false api
+  Result: passed. The Python base image and pinned API dependency layer were already cached. The build context was 96.91 kB. No package or dataset was downloaded during this build.
+- Command: docker compose up -d --no-build
+  Result: API and Redis started; Redis passed its health check.
+- Live HTTP checks against http://127.0.0.1:8810:
+  - GET /health: HTTP 200; status ok; 13,173 catalog entries; ItemKNN loaded; Redis enabled; no Redis error. Neural retrieval/ranker models and the experiment store were disabled.
+  - GET /: HTTP 200.
+  - POST /recommend with history_item_ids [318], limit 5: HTTP 200; strategy itemknn_cosine; returned IDs 296, 593, 50, 527, 356; the history item 318 was excluded.
+  - POST /recommend with preferred_genres [Drama], limit 5: HTTP 200; strategy user_genre_content; all five returned entries reported Drama as a matched genre.
+  - POST /recommend with an empty request, limit 5: HTTP 200; strategy training_period_popularity.
+- Command: docker compose down
+  Result: API, Redis, and the Compose network were stopped and removed. A subsequent compose ps showed no running services.
+
+## Test suite
+
+The full test suite ran in the existing isolated Python 3.10 verification environment with PySpark 4.0.5 installed.
+
+- Unprivileged run: 64 passed, 2 Spark setup errors. The local Java gateway could not open a loopback socket (WinError 10013), which is a sandbox permission failure.
+- Local-network-enabled run: 64 passed, 2 failed. Both failures are test_spark_prepare_features.py Parquet-write tests. Hadoop raised: “HADOOP_HOME and hadoop.home.dir are unset.” Spark's Windows shell also reported that winutils.exe was not found.
+- Therefore, the non-Spark suite passed in this run. The Spark Parquet job and its two write-path tests did not pass on this Windows setup. The output does not establish that Spark works end to end.
+
+Follow-up command, excluding the Spark test module entirely:
+
+```powershell
+python -m pytest -q -p no:cacheprovider --ignore=test_spark_prepare_features.py --basetemp <temporary-directory>
+```
+
+Result: **63 passed in 19.79 seconds**. This confirms the non-Spark tests in the current checkout; it does not resolve the two Spark write-test failures or validate the Spark job.
+
+Local-network-enabled full-suite command (PowerShell):
+$env:JAVA_HOME='<path-to-local-jdk>'
+$env:SPARK_LOCAL_IP='127.0.0.1'
+$env:PYSPARK_PYTHON='<path-to-isolated-python>'
+python -m pytest -q -p no:cacheprovider --basetemp <temporary-directory>
+
+## Scope and limitations
+
+- The Docker demo currently serves ItemKNN with popularity fallback and explicit genre matching. It does not serve the learned TFRS/FAISS retriever or the candidate DCN rankers.
+- Learned-model comparisons and ItemKNN metrics use development panels reused during model work. They are not independent test results and do not establish online lift.
+- Triton and Airflow have prototype code, but their real runtimes were not started in this check.
+- A/B assignment and click-recording code has synthetic tests only. No real users, impressions, clicks, or CTR measurements are available.
+- No MovieLens Spark feature-table run was completed. No training or data download occurred in this verification pass.
+- The Project-2 folder has no .git directory or configured GitHub remote. The local project is not synced to GitHub.
+- At inspection, the folder contained 267 files totaling 891.92 MiB; data/ml-25m/ratings.csv accounted for 646.84 MiB. The ratings file is the source needed for the full offline experiments; the Docker demo excludes it from the build context.
+
+## Status
+
+The local Docker demo and its three user-facing recommendation strategies are verified over HTTP. The entire assignment is not complete: Spark runtime validation, real Triton/Airflow execution, genuine online A/B measurement, GitHub publication, presentation, reflection, and portal submission remain outstanding. Do not describe this as production-ready or as a proven improvement over an independent test set.
+
+## Additional current-state checks
+
+The Compose check was repeated against the current folder on 5 November. `docker compose build --pull=false` succeeded from cached layers with a 2.60 kB build context. Live HTTP returned `/health` status `ok`, `catalog_items=13173`, `itemknn_loaded=true`, `redis_cache_enabled=true`, and `redis_last_error=null`. `POST /recommend` with history item 318 returned ItemKNN recommendations 296, 593, 50, 527, and 356; 318 was excluded. A Drama request returned five items with Drama matches. A request with no history used `training_period_popularity`. The API, Redis service, and Compose network were stopped afterward.
+
+The native API was also started with the saved retrieval, ItemKNN, and DCN artifacts. `/health` reported the two-tower model, ranker, and experiment store loaded. A live `/experimental/two-tower` request for MovieLens development user 139 returned five retrieved items with `strategy=experimental_two_tower` and `reason=unknown_items`; the DCN did not rerank that set because its training support did not cover every retrieved item. The live `/experimental/ab/recommend` endpoint assigned one synthetic participant to each arm: A used `itemknn_cosine`, B used `experimental_dcn`. One synthetic click was sent for the first item in each response, and `/experimental/ab/summary` returned five item positions and one click per arm (item CTR 0.2 each). This verifies endpoint plumbing only. It is not real user behavior, an online result, or a valid CTR estimate. The temporary SQLite event database was removed after the smoke check.
+
+Fresh test reruns on the current folder: the non-Spark suite returned **63 passed in 17.96 seconds**. The Spark module returned **1 passed, 2 failed**; the two Parquet-writing tests fail with `HADOOP_HOME and hadoop.home.dir are unset` and the Hadoop Windows `winutils.exe` requirement. No full MovieLens Spark job was run. The repository was initialized locally; no commit or remote was created.
+

@@ -1,0 +1,25 @@
+services:
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 2s
+      retries: 10
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      NEXVIA_REDIS_URL: redis://redis:6379/0
+      NEXVIA_POPULARITY_PATH: reports/development/itemknn-60-70-corrected-cohort-2k-v2/training_popularity.csv
+      NEXVIA_ITEM_SIMILARITY_PATH: reports/development/itemknn-60-70-corrected-cohort-2k-v2/item_similarity_top100.npz
+      NEXVIA_ITEM_IDS_PATH: reports/development/itemknn-60-70-corrected-cohort-2k-v2/positive_item_ids.npy
+      NEXVIA_ITEMKNN_METADATA_PATH: reports/development/itemknn-60-70-corrected-cohort-2k-v2/artifact_manifest.json
+    ports:
+      - "127.0.0.1:8810:8000"
+    depends_on:
+      redis:
+        condition: service_healthy

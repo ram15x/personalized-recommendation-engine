@@ -1,0 +1,95 @@
+{
+  "evaluation": "fixed genre-profile candidate baseline; no training",
+  "hypothesis": "A per-user genre profile computed only from pre-cutoff ratings >= 4 can improve warm-user candidate recall over global popularity.",
+  "profile_definition": "Normalize the user's counts of positive training interactions across the genres of those movies; score catalog items by the sum of the profile weights for their genres. Break score ties by training positive popularity, then movieId. Users without a positive genre profile use popularity.",
+  "panel": "C:\\Users\\ramna\\OneDrive\\Desktop\\Projects\\Nexvia Internship\\Project-2\\reports\\retrieval-pilot\\validation_users.csv",
+  "panel_users": 2000,
+  "panel_reused_during_prior_development": true,
+  "official_test_used": false,
+  "training_or_downloads": false,
+  "cutoffs": [
+    100,
+    200,
+    500
+  ],
+  "genres": [
+    "Action",
+    "Adventure",
+    "Animation",
+    "Children",
+    "Comedy",
+    "Crime",
+    "Documentary",
+    "Drama",
+    "Fantasy",
+    "Film-Noir",
+    "Horror",
+    "IMAX",
+    "Musical",
+    "Mystery",
+    "Romance",
+    "Sci-Fi",
+    "Thriller",
+    "War",
+    "Western"
+  ],
+  "users_with_prior_history": 570,
+  "true_cold_users": 1430,
+  "users_with_positive_genre_profile": 567,
+  "targets": "unseen validation-period ratings >= 4; temporal cutoffs from baseline report",
+  "genre_profile_all_users": {
+    "users": 2000,
+    "relevant_user_item_pairs": 137725,
+    "recall@100": 0.22654115794914548,
+    "recall@200": 0.2978898416151665,
+    "recall@500": 0.42229963306033974
+  },
+  "popularity_all_users": {
+    "users": 2000,
+    "relevant_user_item_pairs": 137725,
+    "recall@100": 0.2514817799240735,
+    "recall@200": 0.3353982631004703,
+    "recall@500": 0.48928101471061364
+  },
+  "genre_profile_warm_users": {
+    "users": 570,
+    "relevant_user_item_pairs": 19925,
+    "recall@100": 0.028944223715576176,
+    "recall@200": 0.04247003653976333,
+    "recall@500": 0.06303095304407931
+  },
+  "popularity_warm_users": {
+    "users": 570,
+    "relevant_user_item_pairs": 19925,
+    "recall@100": 0.1164551780135692,
+    "recall@200": 0.17407853297942572,
+    "recall@500": 0.2980533447994265
+  },
+  "genre_profile_true_cold_users": {
+    "users": 1430,
+    "relevant_user_item_pairs": 117800,
+    "recall@100": 0.3053035722939948,
+    "recall@200": 0.3997005331487188,
+    "recall@500": 0.5655046313884994
+  },
+  "popularity_true_cold_users": {
+    "users": 1430,
+    "relevant_user_item_pairs": 117800,
+    "recall@100": 0.3053035722939948,
+    "recall@200": 0.3997005331487188,
+    "recall@500": 0.5655046313884994
+  },
+  "retrieval_diagnostic_all_users": {
+    "recall@100": 0.23311463799063414,
+    "recall@200": 0.3101931711029537,
+    "recall@500": 0.44845981171169946
+  },
+  "retrieval_diagnostic_warm_users": {
+    "recall@100": 0.052009065966413706,
+    "recall@200": 0.08563961368989378,
+    "recall@500": 0.15482105357516626
+  },
+  "ratings_sha256": "9c85525758597dca76e8d98cebb9c13e018c2317b09a0878b6d383179526e385",
+  "genre_metadata_sha256": "c50dea6973e619f9bc1decd4afa3e35358b83a5fb663dac0ec82252a011d023d",
+  "prior_two_tower_warning": "Development comparison only. The same validation cohort was reused; these values are not independent test results."
+}

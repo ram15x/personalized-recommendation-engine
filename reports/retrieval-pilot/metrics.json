@@ -1,0 +1,64 @@
+{
+  "dataset": "ml-25m",
+  "stage": "pilot",
+  "seed": 42,
+  "epochs": 3,
+  "dimensions": 32,
+  "training_positive_rows": 500000,
+  "available_training_positive_rows": 9981093,
+  "trained_users": 108155,
+  "indexed_items": 12224,
+  "full_training_catalog_items": 34461,
+  "split": {
+    "train": 20000076,
+    "validation": 2500009,
+    "test": 2500010
+  },
+  "train_before_timestamp": 1466837400,
+  "test_from_timestamp": 1515033908,
+  "candidate_policy": "Exact inner-product search over trained positive items; fill short lists with training popularity",
+  "cold_start_policy": "Popularity for users without a learned embedding",
+  "test_evaluated": false,
+  "history": {
+    "loss": [
+      1624.491455078125,
+      1587.93359375,
+      1523.16552734375
+    ],
+    "regularization_loss": [
+      0,
+      0,
+      0
+    ],
+    "total_loss": [
+      1624.491455078125,
+      1587.93359375,
+      1523.16552734375
+    ]
+  },
+  "validation": {
+    "all": {
+      "users": 2000,
+      "recall@10": 0.05404748126800925,
+      "ndcg@10": 0.2789173897149386,
+      "popularity_recall@10": 0.05652236616719913,
+      "popularity_ndcg@10": 0.29081231949479364
+    },
+    "trained_users": {
+      "users": 528,
+      "recall@10": 0.009401711023615842,
+      "ndcg@10": 0.024316264920462086,
+      "popularity_recall@10": 0.018776275035698717,
+      "popularity_ndcg@10": 0.06937281711688273
+    },
+    "fallback_users": {
+      "users": 1472,
+      "recall@10": 0.07006172494262862,
+      "ndcg@10": 0.3702417062173052,
+      "popularity_recall@10": 0.07006172494262862,
+      "popularity_ndcg@10": 0.3702417062173052
+    },
+    "eligible_positive_users": 17847,
+    "evaluation_user_limit": 2000
+  }
+}

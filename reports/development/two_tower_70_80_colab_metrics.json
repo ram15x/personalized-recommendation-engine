@@ -1,0 +1,72 @@
+{
+  "run": "two-tower baseline, audited 70/80 time split",
+  "data_sha256": "9c85525758597dca76e8d98cebb9c13e018c2317b09a0878b6d383179526e385",
+  "train_cutoff_timestamp": 1421944985,
+  "validation_end_timestamp": 1466837400,
+  "positive_rating_threshold": 4.0,
+  "train_rows": 17500066,
+  "validation_rows": 2500010,
+  "training_positive_pairs": 8750986,
+  "training_users_with_positive_pairs": 121829,
+  "training_positive_items_indexed": 18405,
+  "full_training_catalog_items": 18405,
+  "catalog_coverage": 1.0,
+  "validation_positive_users": 19403,
+  "evaluated_users_with_unseen_positive_targets": 19403,
+  "warm_users": 3550,
+  "cold_or_unembedded_users": 15853,
+  "warm": {
+    "retrieval": {
+      "users": 3550,
+      "eligible_target_pairs": 124777,
+      "recall@10": 0.00041205808246452493,
+      "ndcg@10": 0.0018356313113582843,
+      "candidate_recall@100": 0.004429616846860492,
+      "candidate_recall@500": 0.021548831449623183
+    },
+    "popularity": {
+      "users": 3550,
+      "eligible_target_pairs": 124777,
+      "recall@10": 0.03362431229468801,
+      "ndcg@10": 0.10278602223458645
+    }
+  },
+  "all": {
+    "retrieval": {
+      "users": 19403,
+      "eligible_target_pairs": 1230107,
+      "recall@10": 0.06955602014884028,
+      "ndcg@10": 0.31327718777714947,
+      "candidate_recall@100": 0.0008104488896745218,
+      "candidate_recall@500": 0.003942604321298887
+    },
+    "popularity": {
+      "users": 19403,
+      "eligible_target_pairs": 1230107,
+      "recall@10": 0.07563258060100714,
+      "ndcg@10": 0.33174721240104577
+    }
+  },
+  "warm_same_indexed_catalog_candidate_recall@100": {
+    "retrieval": 0.0050297867400818305,
+    "popularity": 0.14821184018558808,
+    "users": 3550,
+    "target_pairs": 110095
+  },
+  "model": {
+    "dimensions": 32,
+    "batch_size": 512,
+    "epochs": 3,
+    "optimizer": "Adagrad(lr=0.05)",
+    "training_seconds": 246.19696712493896,
+    "loss_by_epoch": [5.9745354652404785, 5.9742536544799805, 5.974645137786865]
+  },
+  "official_final_10_percent_used": false,
+  "old_80_90_validation_used": false,
+  "limitations": [
+    "This is one development run on the audited 70/80 validation window, not an independent external test.",
+    "The target is rating >= 4, a preference proxy rather than clicks or CTR.",
+    "The model is ID-only; users/items absent from training use popularity fallback.",
+    "FAISS IndexFlatIP is exact inner-product search."
+  ]
+}

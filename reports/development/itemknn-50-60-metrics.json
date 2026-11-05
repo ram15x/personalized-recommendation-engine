@@ -1,0 +1,76 @@
+{
+  "run": "ItemKNN cosine retrieval, MovieLens 50/60 temporal development window",
+  "ratings_sha256": "9c85525758597dca76e8d98cebb9c13e018c2317b09a0878b6d383179526e385",
+  "train_cutoff_timestamp": 1198868375,
+  "validation_end_timestamp": 1288571552,
+  "train_rows": 12500047,
+  "validation_rows": 2500010,
+  "positive_rating_threshold": 4.0,
+  "positive_training_pairs": 6292528,
+  "training_users": 89780,
+  "positive_items_indexed": 9435,
+  "full_training_catalog_items": 9659,
+  "item_neighbors_per_item": 100,
+  "similarity": "cosine-normalized binary positive co-rating counts",
+  "user_score": "sum of item-item similarities from positive training history",
+  "warm_users": 4274,
+  "eligible_target_pairs": 185309,
+  "target_pairs_in_catalog": 130011,
+  "target_pair_catalog_coverage": 0.7015903167142449,
+  "metrics": {
+    "itemknn_recall@10": 0.04018605432184571,
+    "itemknn_ndcg@10": 0.15448525324934848,
+    "popularity_recall@10": 0.03261865958312492,
+    "popularity_ndcg@10": 0.12230029917287397,
+    "itemknn_matched_recall@10": 0.054829564973033436,
+    "itemknn_matched_ndcg@10": 0.1575082340319983,
+    "popularity_matched_recall@10": 0.04339309253425103,
+    "popularity_matched_ndcg@10": 0.12424476832424532,
+    "itemknn_recall@100": 0.1873909844578789,
+    "popularity_recall@100": 0.135423325156873,
+    "itemknn_matched_recall@100": 0.2515268606422873,
+    "popularity_matched_recall@100": 0.1770985951525903,
+    "itemknn_recall@500": 0.4111661386797041
+  },
+  "paired_user_bootstrap": {
+    "matched_recall@100": {
+      "left": "itemknn_matched_recall@100",
+      "right": "popularity_matched_recall@100",
+      "median_delta": 0.07433417801097625,
+      "ci95_low": 0.07006331509037673,
+      "ci95_high": 0.07900944477403647,
+      "users": 4274,
+      "resamples": 2000,
+      "seed": 42
+    },
+    "matched_recall@10": {
+      "left": "itemknn_matched_recall@10",
+      "right": "popularity_matched_recall@10",
+      "median_delta": 0.011394368979429349,
+      "ci95_low": 0.008625277199525437,
+      "ci95_high": 0.014095214924728063,
+      "users": 4274,
+      "resamples": 2000,
+      "seed": 42
+    },
+    "matched_ndcg@10": {
+      "left": "itemknn_matched_ndcg@10",
+      "right": "popularity_matched_ndcg@10",
+      "median_delta": 0.03326637463789252,
+      "ci95_low": 0.02854333168957264,
+      "ci95_high": 0.03797794364298231,
+      "users": 4274,
+      "resamples": 2000,
+      "seed": 42
+    }
+  },
+  "official_final_10_percent_used": false,
+  "historical_80_90_window_used": false,
+  "no_model_training": true,
+  "limitations": [
+    "The 50/60 period was not in earlier saved evaluations, but this method was selected after inspecting earlier development results; it is not an independent final test.",
+    "Rating >= 4 is a preference proxy, not clicks or CTR.",
+    "Unrated items may be unknown preferences.",
+    "This experiment evaluates candidate retrieval only; no second-stage ranker or online experiment is measured."
+  ]
+}

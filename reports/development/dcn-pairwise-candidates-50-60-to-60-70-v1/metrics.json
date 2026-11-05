@@ -1,0 +1,113 @@
+{
+  "run": "Pairwise DCN candidate ranker, MovieLens 50/60 train to 60/70 sampled development evaluation",
+  "train_export_sha256": "c2521cbd2598574b16cb1ab97ed3eeacf4eb778d07bc488600a9fbbf8579d6c7",
+  "eval_export_sha256": "d770a0a4b9002b576f906d43550c9d758435ba4aa0c9cd4f139644a338d99d10",
+  "training_export_rows": 2000,
+  "training_users": 2000,
+  "training_observed_candidate_ratings": 65349,
+  "pair_sampling": {
+    "positive": "observed rating >= 4.0",
+    "lower_rated": "observed rating < 4.0",
+    "unrated": "unknown; excluded from pairs",
+    "users_with_both_classes": 1575,
+    "possible_observed_pairs": 1262923,
+    "max_pairs_per_user": 64,
+    "sampled_pairs": 72732,
+    "observed_positive_labels": 33929,
+    "observed_lower_rating_labels": 31420,
+    "seed": 42
+  },
+  "config": {
+    "epochs": 4,
+    "batch_size": 2048,
+    "seed": 42,
+    "architecture": "same DCN-v1 scorer as pointwise check",
+    "embedding_dim": 32,
+    "cross_layers": 3,
+    "deep_units": [
+      128,
+      64
+    ],
+    "dropout": 0.1,
+    "optimizer": "Adam(1e-3)",
+    "objective": "binary cross entropy from logits of score(positive)-score(lower-rated)",
+    "numeric_feature": "training-standardized log1p(ItemKNN retrieval score)"
+  },
+  "epoch_pairwise_loss": [
+    0.6543636322021484,
+    0.5456510186195374,
+    0.48068568110466003,
+    0.4479564428329468
+  ],
+  "epoch_pair_accuracy": [
+    0.6179673075675964,
+    0.7213193774223328,
+    0.7623329758644104,
+    0.7803717851638794
+  ],
+  "evaluation_users": 386,
+  "evaluation_observed_candidate_ratings": 10099,
+  "evaluation_positive_candidate_ratings": 5610,
+  "evaluation_candidates": 193000,
+  "evaluation_oov_item_candidates": 18732,
+  "metrics": {
+    "itemknn": {
+      "macro_recall@10": 0.05865025771628628,
+      "macro_ndcg@10": 0.11075298226428175
+    },
+    "mean_baseline": {
+      "macro_recall@10": 0.021222783464614762,
+      "macro_ndcg@10": 0.03528043828059962
+    },
+    "pairwise_dcn": {
+      "macro_recall@10": 0.031973555041000516,
+      "macro_ndcg@10": 0.054414852480415235
+    }
+  },
+  "paired_user_bootstrap_2000": {
+    "pairwise_dcn_minus_itemknn_recall@10": {
+      "median_difference": -0.026566121634499878,
+      "ci95_low": -0.04098615380951061,
+      "ci95_high": -0.012330868723266514,
+      "users": 386,
+      "resamples": 2000,
+      "seed": 42
+    },
+    "pairwise_dcn_minus_itemknn_ndcg@10": {
+      "median_difference": -0.056211023818684536,
+      "ci95_low": -0.07410228964675315,
+      "ci95_high": -0.03912961633440982,
+      "users": 386,
+      "resamples": 2000,
+      "seed": 42
+    },
+    "pairwise_dcn_minus_mean_baseline_recall@10": {
+      "median_difference": 0.010597302713957986,
+      "ci95_low": 0.0031320908576077653,
+      "ci95_high": 0.019366927575916435,
+      "users": 386,
+      "resamples": 2000,
+      "seed": 42
+    },
+    "pairwise_dcn_minus_mean_baseline_ndcg@10": {
+      "median_difference": 0.0191929637434244,
+      "ci95_low": 0.009823435875549602,
+      "ci95_high": 0.028936260209264982,
+      "users": 386,
+      "resamples": 2000,
+      "seed": 42
+    }
+  },
+  "official_final_10_percent_used": false,
+  "raw_ratings_csv_read": false,
+  "itemknn_api_or_default_changed": false,
+  "limitations": [
+    "Both sampled temporal windows were reused during development and are not independent test data.",
+    "The evaluation has only the 386 IDs shared by the two sampled candidate exports.",
+    "Positive and lower-rated pairs use only observed explicit ratings; unrated items are not negatives.",
+    "Top-k metrics treat unrated candidates as non-hits, so MovieLens exposure/selection bias remains.",
+    "Ratings are not clicks or CTR; no online A/B test is measured.",
+    "This experiment changes only the DCN objective and observed pair sampling relative to the pointwise candidate-ranker run; it is not evidence of production value."
+  ],
+  "elapsed_seconds": 18.311712299939245
+}

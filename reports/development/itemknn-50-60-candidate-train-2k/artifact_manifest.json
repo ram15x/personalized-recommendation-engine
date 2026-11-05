@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "ratings_sha256": "9c85525758597dca76e8d98cebb9c13e018c2317b09a0878b6d383179526e385",
+  "train_cutoff_timestamp": 1198868375,
+  "positive_rating_threshold": 4.0,
+  "neighbors_per_item": 100,
+  "similarity_shape": [
+    9435,
+    9435
+  ],
+  "similarity_nnz": 939375,
+  "similarity_sha256": "1e3e6b7368810925a9f6f3548a9b7f5d8123f9b6504d41d9e33ff2a6525fab06",
+  "item_ids_count": 9435,
+  "item_ids_sha256": "033e0cc06adb42375368d6c01cd63d2776f305e3555a0aecd486b05ee826af7c"
+}

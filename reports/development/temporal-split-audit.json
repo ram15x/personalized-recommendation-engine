@@ -1,0 +1,70 @@
+{
+  "purpose": "temporal split feasibility audit; no training or scoring",
+  "dataset": "MovieLens 25M already present locally",
+  "ratings_path": "data\\ml-25m\\ratings.csv",
+  "historical_baseline_cutoff_timestamp": 1466837400,
+  "historical_validation_end_timestamp": 1515033908,
+  "new_train_cutoff_timestamp": 1421944985,
+  "positive_rating_threshold": 4.0,
+  "timestamp_ties_kept_together": true,
+  "split_definition": {
+    "train": "timestamp < 1421944985",
+    "validation": "1421944985 <= timestamp < 1466837400",
+    "previous_validation": "1466837400 <= timestamp < 1515033908; not used by this audit",
+    "previous_test": "timestamp >= 1515033908; not used by this audit"
+  },
+  "splits": {
+    "train": {
+      "rows": 17500066,
+      "positive_rows": 8750986,
+      "unique_users": 122029,
+      "unique_items": 22931,
+      "positive_users": 121829,
+      "positive_items": 18405
+    },
+    "validation": {
+      "rows": 2500010,
+      "positive_rows": 1230107,
+      "unique_users": 19505,
+      "unique_items": 31320,
+      "positive_users": 19403,
+      "positive_items": 19951
+    },
+    "previous_validation": {
+      "rows": 2500009,
+      "positive_rows": 1231511,
+      "unique_users": 18003,
+      "unique_items": 37221,
+      "positive_users": 17847,
+      "positive_items": 23050
+    },
+    "previous_test": {
+      "rows": 2500010,
+      "positive_rows": 1240207,
+      "unique_users": 18442,
+      "unique_items": 49405,
+      "positive_users": 18276,
+      "positive_items": 30538
+    }
+  },
+  "validation_support": {
+    "users_seen_in_train": 3651,
+    "users_absent_from_train": 15854,
+    "items_seen_in_train": 19790,
+    "validation_items_absent_from_train": 11530,
+    "positive_target_users": 19403,
+    "positive_target_users_seen_in_train": 3560,
+    "positive_target_users_absent_from_train": 15843,
+    "positive_target_items": 19951,
+    "positive_target_items_seen_in_train_catalog": 14778,
+    "positive_target_items_absent_from_train_catalog": 5173
+  },
+  "warnings": [
+    "This validation window is temporally earlier than the old baseline validation window.",
+    "Historical retrieval checkpoints trained through the old 80% cutoff and must not be scored here as if held out.",
+    "The old 80-90% validation window was reused; the old final 10% already has a recorded baseline score. Neither is an untouched independent benchmark.",
+    "MovieLens ratings are explicit ratings used as implicit preference proxies; they are not clicks or CTR."
+  ],
+  "no_model_training": true,
+  "previous_test_period_scored_by_this_audit": false
+}

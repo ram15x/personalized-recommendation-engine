@@ -1,0 +1,23 @@
+{
+  "protocol": "docs/faiss-ranker-feasibility-protocol.md",
+  "ratings_sha256": "9c85525758597dca76e8d98cebb9c13e018c2317b09a0878b6d383179526e385",
+  "embeddings_sha256": "12f155efc605fe204726892111927127a2cb459145dc1725e2d8f545ed5e63bf",
+  "sample_size": 10000,
+  "seed": 42,
+  "train_end": 1466837400,
+  "midpoint": 1490935654,
+  "development_end": 1515033908,
+  "early_rating_rows": 24144,
+  "early_positive_rows": 8919,
+  "late_rating_rows": 14344,
+  "late_positive_rows": 6397,
+  "early_users_with_rating": 398,
+  "late_users_with_rating": 297,
+  "users_with_rating_in_both_halves": 233,
+  "users_with_positive_in_both_halves": 217,
+  "limitations": [
+    "Reused development period; not independent validation.",
+    "Ratings counts are upper bounds on retrievable candidate labels.",
+    "No final-period outcomes retained; no model training or scoring."
+  ]
+}

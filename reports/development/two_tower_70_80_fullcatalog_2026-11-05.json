@@ -1,0 +1,140 @@
+{
+  "run": "two-tower baseline, audited 70/80 time split, corrected full training catalog",
+  "data_sha256": "9c85525758597dca76e8d98cebb9c13e018c2317b09a0878b6d383179526e385",
+  "train_cutoff_timestamp": 1421944985,
+  "validation_end_timestamp": 1466837400,
+  "positive_rating_threshold": 4.0,
+  "train_rows": 17500066,
+  "validation_rows": 2500010,
+  "training_positive_pairs": 8750986,
+  "training_users_with_positive_pairs": 121829,
+  "training_positive_items_indexed": 18405,
+  "full_training_catalog_items": 22931,
+  "catalog_coverage": 0.8026252671056648,
+  "positive_target_items": 19951,
+  "positive_target_items_in_full_training_catalog": 14778,
+  "positive_target_items_absent_from_full_training_catalog": 5173,
+  "validation_positive_users": 19403,
+  "evaluated_users_with_unseen_positive_targets": 19403,
+  "warm_users": 3550,
+  "cold_or_unembedded_users": 15853,
+  "warm": {
+    "retrieval_then_popularity_fill": {
+      "users": 3550,
+      "eligible_target_pairs": 124777,
+      "recall@10": 0.0004475590984357664,
+      "ndcg@10": 0.0018866040617822454
+    },
+    "candidate_generation": {
+      "users": 3550,
+      "eligible_target_pairs": 124777,
+      "candidate_recall@100": 0.004375912004373386,
+      "candidate_recall@500": 0.021637769371368454
+    },
+    "popularity": {
+      "users": 3550,
+      "eligible_target_pairs": 124777,
+      "recall@10": 0.03362431229468801,
+      "ndcg@10": 0.10278602223458645
+    }
+  },
+  "all": {
+    "retrieval_then_popularity_fill": {
+      "users": 19403,
+      "eligible_target_pairs": 1230107,
+      "recall@10": 0.06956251546434294,
+      "ndcg@10": 0.3132865138228128
+    },
+    "candidate_generation": {
+      "users": 19403,
+      "eligible_target_pairs": 1230107,
+      "candidate_recall@100": 0.0008006229766286411,
+      "candidate_recall@500": 0.0039588765277718905
+    },
+    "popularity": {
+      "users": 19403,
+      "eligible_target_pairs": 1230107,
+      "recall@10": 0.07563258060100714,
+      "ndcg@10": 0.33174721240104577
+    }
+  },
+  "warm_same_indexed_catalog_candidate_recall@100": {
+    "retrieval": 0.004937797178308494,
+    "popularity": 0.14821184018558808,
+    "users": 3550,
+    "target_pairs": 110095
+  },
+  "model": {
+    "dimensions": 32,
+    "batch_size": 512,
+    "epochs": 3,
+    "optimizer": "Adagrad(lr=0.05)",
+    "training_seconds": 260.47366762161255,
+    "loss_by_epoch": [
+      5.974533557891846,
+      5.974252223968506,
+      5.974648952484131
+    ]
+  },
+  "official_final_10_percent_used": false,
+  "old_80_90_validation_used": false,
+  "limitations": [
+    "One development run on the audited 70/80 validation window; not an independent test.",
+    "Rating >= 4 is a preference proxy, not clicks or CTR.",
+    "The model is ID-only; user/item IDs absent from its training IDs require fallback.",
+    "The indexed positive-training item subset covers 80.26% of all 22,931 items rated in the training window.",
+    "Training used three epochs and a custom in-batch softmax loss; its loss was nearly flat.",
+    "FAISS IndexFlatIP is exact inner-product search."
+  ],
+  "cohort_breakdown_source": "Read-only aggregation of the saved Colab per_user_predictions.csv; no model inference or training in this audit.",
+  "cohort_breakdown": [
+    {
+      "has_embedding": true,
+      "has_prior_history": true,
+      "users": 3550,
+      "eligible_targets": 124777,
+      "targets_in_index": 110095,
+      "target_pair_index_coverage": 0.8823340840058664,
+      "retrieval_recall@100": 0.004375912004373382,
+      "retrieval_recall@500": 0.021637769371368437,
+      "hybrid_recall@10": 0.00044755909843576577,
+      "hybrid_ndcg@10": 0.0018866040617822445,
+      "popularity_recall@10": 0.033624312294687986,
+      "popularity_ndcg@10": 0.10278602223458642
+    },
+    {
+      "has_embedding": false,
+      "has_prior_history": true,
+      "users": 10,
+      "eligible_targets": 446,
+      "targets_in_index": 436,
+      "target_pair_index_coverage": 0.9775784753363229,
+      "retrieval_recall@100": 0.0,
+      "retrieval_recall@500": 0.0,
+      "hybrid_recall@10": 0.10837957255510444,
+      "hybrid_ndcg@10": 0.3037429348186977,
+      "popularity_recall@10": 0.10837957255510444,
+      "popularity_ndcg@10": 0.3037429348186977
+    },
+    {
+      "has_embedding": false,
+      "has_prior_history": false,
+      "users": 15843,
+      "eligible_targets": 1104884,
+      "targets_in_index": 1060073,
+      "target_pair_index_coverage": 0.9594428012352428,
+      "retrieval_recall@100": 0.0,
+      "retrieval_recall@500": 0.0,
+      "hybrid_recall@10": 0.08502486000313372,
+      "hybrid_ndcg@10": 0.3830690749186721,
+      "popularity_recall@10": 0.08502486000313372,
+      "popularity_ndcg@10": 0.3830690749186721
+    }
+  ],
+  "overall_target_pair_coverage": {
+    "users": 19403,
+    "eligible_targets": 1230107,
+    "targets_in_index": 1170604,
+    "target_pair_index_coverage": 0.9516277852251878
+  }
+}

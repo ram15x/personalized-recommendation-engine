@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Movie Recommendations | Nexvia AIML-03</title>
+  <style>
+    :root { color-scheme: light; font-family: Inter, Segoe UI, system-ui, sans-serif; color: #182436; background: #f4f7fb; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    main { max-width: 920px; margin: 48px auto; padding: 0 20px 48px; }
+    .eyebrow { color: #315d9a; font-size: .78rem; font-weight: 750; letter-spacing: .12em; text-transform: uppercase; }
+    h1 { margin: 10px 0; font-size: clamp(2rem, 5vw, 3rem); letter-spacing: -.04em; }
+    .lead { max-width: 680px; color: #536176; line-height: 1.6; }
+    .notice { margin: 26px 0; padding: 15px 18px; border: 1px solid #d7e3f3; border-radius: 12px; background: #edf4ff; color: #27456d; line-height: 1.5; }
+    form, .results { padding: 22px; border: 1px solid #e0e7f0; border-radius: 16px; background: #fff; box-shadow: 0 8px 28px #1b35510b; }
+    label { display: block; margin: 14px 0 7px; font-weight: 650; }
+    input { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 9px; font: inherit; }
+    .fields { display: grid; grid-template-columns: 1fr 1fr 150px; gap: 16px; }
+    button { margin-top: 18px; padding: 12px 18px; border: 0; border-radius: 9px; background: #2459a6; color: white; font: inherit; font-weight: 700; cursor: pointer; }
+    button:disabled { opacity: .6; cursor: wait; }
+    .status { min-height: 1.5em; margin: 16px 0 0; color: #59677a; }
+    .results { display: none; margin-top: 22px; }
+    .results h2 { margin-top: 0; font-size: 1.15rem; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+    article { padding: 16px; border: 1px solid #e3e9f0; border-radius: 12px; }
+    article h3 { margin: 0 0 9px; font-size: 1rem; }
+    article p { margin: 6px 0; color: #5d6979; font-size: .9rem; }
+    .rank { color: #315d9a; font-weight: 750; }
+    @media (max-width: 600px) { main { margin-top: 28px; } .fields { grid-template-columns: 1fr; gap: 0; } }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="eyebrow">AIML-03 · Recommendation demo</div>
+    <h1>Movie recommendations</h1>
+    <p class="lead">Explore an offline MovieLens recommender with item-to-item suggestions from liked ratings, explicit genre matching for new users, and a popularity fallback.</p>
+    <div class="notice" id="model-note"><strong>What this demo does:</strong> without genre preferences, entered movie IDs are treated as liked or highly rated history for item-to-item recommendations. Seen IDs are excluded. Genre preferences use transparent movie metadata matching. This offline demo does not use live user behavior or predict clicks.</div>
+    <form id="recommend-form">
+      <div class="fields">
+        <div>
+          <label for="history">Liked or highly rated movie IDs <span style="font-weight:400;color:#66758a">(optional, comma-separated)</span></label>
+          <input id="history" name="history" inputmode="numeric" placeholder="For example: 318, 296, 356" autocomplete="off">
+        </div>
+        <div>
+          <label for="preferences">Preferred genres <span style="font-weight:400;color:#66758a">(optional, comma-separated)</span></label>
+          <input id="preferences" name="preferences" placeholder="For example: Drama, Comedy" autocomplete="off">
+        </div>
+        <div>
+          <label for="limit">Number to show</label>
+          <input id="limit" name="limit" type="number" min="1" max="50" value="10" required>
+        </div>
+      </div>
+      <button id="submit" type="submit">Show recommendations</button>
+      <p class="status" id="status" role="status" aria-live="polite"></p>
+    </form>
+    <section class="results" id="research-section" aria-labelledby="research-title">
+      <h2 id="research-title">Experimental two-stage recommender</h2>
+      <p class="lead">Explore a saved MovieLens user through FAISS retrieval and a feature-based ranker. Results are experimental; the models were evaluated on reused development data.</p>
+      <form id="research-form">
+        <label for="research-user">MovieLens user ID</label>
+        <input id="research-user" type="number" min="1" value="847" required>
+        <label for="research-history">Previously rated movie IDs (optional, comma-separated)</label>
+        <input id="research-history" placeholder="For example: 318, 296" autocomplete="off">
+        <button type="submit">Run two-stage recommendations</button>
+        <p class="status" id="research-status" role="status" aria-live="polite"></p>
+      </form>
+      <div class="cards" id="research-cards"></div>
+    </section>
+    <section class="results" id="results" aria-labelledby="results-title">
+      <h2 id="results-title">Recommendations</h2>
+      <div class="cards" id="cards"></div>
+    </section>
+  </main>
+  <script>
+    const form = document.querySelector('#recommend-form');
+    const button = document.querySelector('#submit');
+    const status = document.querySelector('#status');
+    const section = document.querySelector('#results');
+    const cards = document.querySelector('#cards');
+    const modelNote = document.querySelector('#model-note');
+
+    fetch('/health').then((response) => response.json()).then((health) => {
+      if (health.experimental_two_tower_loaded && health.experimental_feature_ranker_loaded) {
+        document.querySelector('#research-section').style.display = 'block';
+      }
+      if (health.itemknn_loaded) {
+        modelNote.textContent = 'With ItemKNN enabled, liked/highly-rated movie IDs can drive cosine neighbor retrieval. If you enter preferred genres, explicit genre matching takes priority. Seen movies are excluded; this is offline behavior, not live user behavior.';
+      } else {
+        modelNote.textContent = 'Without preferred genres, this configuration uses historical popularity and removes movie IDs you enter. Enter genres to use the transparent content fallback for a new user. No live user behavior is used.';
+      }
+    }).catch(() => {
+      modelNote.textContent = 'The recommendation service status is unavailable; check the API connection.';
+    });
+
+    document.querySelector('#research-form').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const message = document.querySelector('#research-status');
+      const output = document.querySelector('#research-cards');
+      const user = Number(document.querySelector('#research-user').value);
+      const raw = document.querySelector('#research-history').value.trim();
+      try {
+        if (!Number.isSafeInteger(user) || user < 1) throw new Error('Enter a positive MovieLens user ID.');
+        const history = raw ? [...new Set(raw.split(',').map((value) => {
+          const id = Number(value.trim());
+          if (!Number.isSafeInteger(id) || id < 1) throw new Error('Enter positive movie IDs separated by commas.');
+          return id;
+        }))] : [];
+        message.textContent = 'Loading two-stage recommendations…';
+        output.replaceChildren();
+        const response = await fetch('/experimental/two-tower/display', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ user_id: user, history_item_ids: history, limit: 10, experimental_feature_dcn: true })
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.detail || 'The request could not be completed.');
+        data.movies.forEach((movie, index) => {
+          const card = document.createElement('article');
+          const title = document.createElement('h3');
+          title.textContent = movie.title || `Movie ${movie.movie_id}`;
+          const detail = document.createElement('p');
+          detail.textContent = `#${index + 1} · Movie ${movie.movie_id}`;
+          card.append(title, detail); output.append(card);
+        });
+        message.textContent = data.reason === 'unknown_user'
+          ? 'Unknown user: showing the popularity fallback.'
+          : 'Showing experimental FAISS retrieval and feature-ranker results.';
+      } catch (error) {
+        message.textContent = error instanceof Error ? error.message : 'Request failed.';
+      }
+    });
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const rawIds = document.querySelector('#history').value.trim();
+      let historyIds = [];
+      try {
+        historyIds = rawIds ? [...new Set(rawIds.split(',').map((value) => {
+          const id = Number(value.trim());
+          if (!Number.isSafeInteger(id) || id <= 0) throw new Error('Enter positive movie IDs separated by commas.');
+          return id;
+        }))] : [];
+      } catch (error) {
+        status.textContent = error instanceof Error ? error.message : 'Check the movie IDs.';
+        return;
+      }
+      const limit = Number(document.querySelector('#limit').value);
+      const preferredGenres = [...new Set(document.querySelector('#preferences').value
+        .split(',').map((value) => value.trim()).filter(Boolean))];
+      if (!Number.isInteger(limit) || limit < 1 || limit > 50) {
+        status.textContent = 'Choose between 1 and 50 recommendations.';
+        return;
+      }
+      button.disabled = true;
+      status.textContent = 'Loading recommendations…';
+      cards.replaceChildren();
+      try {
+        const response = await fetch('/recommend', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ history_item_ids: historyIds, preferred_genres: preferredGenres, limit })
+        });
+        const payload = await response.json();
+        if (!response.ok) throw new Error(payload.detail || 'The request could not be completed.');
+        for (const item of payload.recommendations) {
+          const card = document.createElement('article');
+          const title = document.createElement('h3');
+          title.textContent = item.title;
+          const rank = document.createElement('p');
+          rank.className = 'rank';
+          rank.textContent = `#${item.rank} · Movie ${item.movie_id}`;
+          const genres = document.createElement('p');
+          genres.textContent = `Genres: ${item.genres.join(', ') || 'Not listed'}`;
+          if (item.matched_genres?.length) {
+            const matched = document.createElement('p');
+            matched.textContent = `Matched preferences: ${item.matched_genres.join(', ')}`;
+            card.append(matched);
+          }
+          const count = document.createElement('p');
+          count.textContent = `${item.positive_training_ratings.toLocaleString()} positive ratings in the training data`;
+          card.append(title, rank, genres, count);
+          cards.append(card);
+        }
+        section.style.display = 'block';
+        const labels = {
+          itemknn_cosine: 'cosine item-neighbor recommendations',
+          user_genre_content: 'content matches for your selected genres',
+          training_period_popularity: 'popularity fallback'
+        };
+        const label = labels[payload.strategy] || 'recommendations';
+        status.textContent = `Showing ${payload.recommendations.length} movies. Strategy: ${label}.`;
+      } catch (error) {
+        section.style.display = 'none';
+        status.textContent = error instanceof Error ? error.message : 'Request failed.';
+      } finally {
+        button.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

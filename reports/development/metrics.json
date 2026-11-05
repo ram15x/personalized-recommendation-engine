@@ -1,0 +1,51 @@
+{
+  "dataset": "ml-latest-small-development-only",
+  "ratings_sha256": "aa289ca83157595d0df6aea1be6a4ded676ddc4385472e8313a8ed9805352646",
+  "positive_rating": 4.0,
+  "k": 10,
+  "split": {
+    "train": 80668,
+    "validation": 10084,
+    "test": 10084,
+    "train_before_timestamp": 1458635171,
+    "test_from_timestamp": 1498029450
+  },
+  "model": "Training positive-rating count; movieId breaks ties",
+  "evaluation": "Full training catalog; observed items excluded; binary relevance; macro user average",
+  "validation": {
+    "users": 62,
+    "recall@10": 0.0606695164484878,
+    "ndcg@10": 0.3085143118414461,
+    "warm_users": {
+      "users": 21,
+      "recall@10": 0.03963628963628964,
+      "ndcg@10": 0.03386023674016316
+    },
+    "cold_users": {
+      "users": 41,
+      "recall@10": 0.07144263262058931,
+      "ndcg@10": 0.4491907893323472
+    },
+    "users_without_positive_targets": 0,
+    "unseen_catalog_positive_fraction": 0.07464409388226241,
+    "recommendation_catalog_coverage": 0.007626795474768018
+  },
+  "test": {
+    "users": 72,
+    "recall@10": 0.06789969513742944,
+    "ndcg@10": 0.2786433276844158,
+    "warm_users": {
+      "users": 25,
+      "recall@10": 0.03458877021888182,
+      "ndcg@10": 0.09913767609864972
+    },
+    "cold_users": {
+      "users": 47,
+      "recall@10": 0.08561827222176328,
+      "ndcg@10": 0.3741250572513128
+    },
+    "users_without_positive_targets": 2,
+    "unseen_catalog_positive_fraction": 0.21681201550387597,
+    "recommendation_catalog_coverage": 0.009025041311808821
+  }
+}

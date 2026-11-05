@@ -1,0 +1,23 @@
+{
+  "protocol": "docs/faiss-ranker-feasibility-protocol.md",
+  "ratings_sha256": "9c85525758597dca76e8d98cebb9c13e018c2317b09a0878b6d383179526e385",
+  "embeddings_sha256": "12f155efc605fe204726892111927127a2cb459145dc1725e2d8f545ed5e63bf",
+  "index_sha256": "267bde9620a87040710f6d7e8f06573737228097075066ad9aa72ac54a002f58",
+  "sample_size": 10000,
+  "seed": 42,
+  "active_users_either_half": 462,
+  "candidate_limit": 100,
+  "early_observed_candidate_labels": 756,
+  "early_positive_candidate_labels": 400,
+  "late_observed_candidate_labels": 483,
+  "late_positive_candidate_labels": 237,
+  "early_users_with_candidate_labels": 188,
+  "late_users_with_candidate_labels": 123,
+  "users_with_candidate_labels_both_halves": 57,
+  "users_with_positive_candidate_labels_both_halves": 30,
+  "limitations": [
+    "Reused development window, not independent validation.",
+    "Observed ratings on retrieved items only; unknown items are not negatives.",
+    "No model training or recommendation quality scoring."
+  ]
+}

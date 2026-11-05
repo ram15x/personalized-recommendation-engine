@@ -1,0 +1,53 @@
+{
+  "protocol": "docs/fallback-evaluation-protocol.md",
+  "users": 386,
+  "candidate_export_sha256": "d770a0a4b9002b576f906d43550c9d758435ba4aa0c9cd4f139644a338d99d10",
+  "ranker_manifest_sha256": "cf7ddb46b20532042f6ddcff2b8eec179c7c374cab9986ec06a6529f1d4e558d",
+  "zero_positive_users": 34,
+  "strict_reranked_users": 95,
+  "known_slots_reranked_users": 386,
+  "metrics": {
+    "itemknn": {
+      "recall@10": 0.05865025771628628,
+      "ndcg@10": 0.11075298226428175
+    },
+    "strict": {
+      "recall@10": 0.05567664973265656,
+      "ndcg@10": 0.10674788654026364
+    },
+    "known_slots": {
+      "recall@10": 0.0595806752236648,
+      "ndcg@10": 0.11396045473073531
+    }
+  },
+  "paired_bootstrap": {
+    "strict_minus_itemknn_recall@10": {
+      "median": -0.0026890999245103614,
+      "ci95": [
+        -0.011511065128597545,
+        0.004875733478514068
+      ]
+    },
+    "strict_minus_itemknn_ndcg@10": {
+      "median": -0.003567337203393788,
+      "ci95": [
+        -0.011111293950240433,
+        0.0022466063936665255
+      ]
+    },
+    "known_slots_minus_itemknn_recall@10": {
+      "median": 0.0010938556345587158,
+      "ci95": [
+        -0.010997513550526807,
+        0.01280532292664952
+      ]
+    },
+    "known_slots_minus_itemknn_ndcg@10": {
+      "median": 0.003722775134574449,
+      "ci95": [
+        -0.008441321665177668,
+        0.014157632487414014
+      ]
+    }
+  }
+}

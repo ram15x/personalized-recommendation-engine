@@ -1,0 +1,79 @@
+{
+  "dataset": "ml-25m",
+  "stage": "pilot",
+  "seed": 42,
+  "epochs": 3,
+  "dimensions": 32,
+  "training_interactions": 413616,
+  "available_training_interactions": 20000076,
+  "interaction_mode": "all-ratings",
+  "sampling_strategy": "recent-per-user-streaming",
+  "trained_users": 137883,
+  "indexed_items": 12859,
+  "full_training_catalog_items": 34461,
+  "split": {
+    "train": 20000076,
+    "validation": 2500009,
+    "test": 2500010,
+    "train_before_timestamp": 1466837400,
+    "test_from_timestamp": 1515033908
+  },
+  "ratings_sha256": "9c85525758597dca76e8d98cebb9c13e018c2317b09a0878b6d383179526e385",
+  "streaming": true,
+  "streaming_sample": {
+    "training_users": 137883,
+    "validation_users_with_positive_targets": 17847,
+    "evaluated_users_selected": 2000,
+    "positive_training_rows": 9981093,
+    "retained_training_rows": 413616,
+    "training_catalog_items": 34461
+  },
+  "train_before_timestamp": 1466837400,
+  "test_from_timestamp": 1515033908,
+  "candidate_policy": "Exact inner-product search over sampled interaction items; fill short lists with training popularity",
+  "training_objective": "One diagonal positive per row; mask same-user and same-item in-batch pairs as negatives.",
+  "cold_start_policy": "Popularity for users without a learned embedding",
+  "test_evaluated": false,
+  "history": {
+    "loss": [
+      6.067739009857178,
+      6.067737579345703,
+      6.067780494689941
+    ],
+    "regularization_loss": [
+      0,
+      0,
+      0
+    ],
+    "total_loss": [
+      6.067739009857178,
+      6.067737579345703,
+      6.067780494689941
+    ]
+  },
+  "validation": {
+    "all": {
+      "users": 2000,
+      "recall@10": 0.05117067904311825,
+      "ndcg@10": 0.27061152897830537,
+      "popularity_recall@10": 0.05652236616719913,
+      "popularity_ndcg@10": 0.29081231949479364
+    },
+    "trained_users": {
+      "users": 570,
+      "recall@10": 0.00019548203416588399,
+      "ndcg@10": 0.001474046984044583,
+      "popularity_recall@10": 0.01897333159234438,
+      "popularity_ndcg@10": 0.07235401370856473
+    },
+    "fallback_users": {
+      "users": 1430,
+      "recall@10": 0.0714894638648685,
+      "ndcg@10": 0.3778901057172765,
+      "popularity_recall@10": 0.0714894638648685,
+      "popularity_ndcg@10": 0.3778901057172765
+    },
+    "eligible_positive_users": 2000,
+    "evaluation_user_limit": 2000
+  }
+}

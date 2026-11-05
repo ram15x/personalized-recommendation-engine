@@ -1,0 +1,2 @@
+# NumPy-only CPU serving of the saved CSR ItemKNN artifact.
+numpy==2.2.6

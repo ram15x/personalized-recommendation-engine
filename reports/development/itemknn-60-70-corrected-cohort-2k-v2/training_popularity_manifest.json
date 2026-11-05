@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "source": "ratings.csv",
+  "ratings_sha256": "9c85525758597dca76e8d98cebb9c13e018c2317b09a0878b6d383179526e385",
+  "train_cutoff_timestamp_exclusive": 1288571552,
+  "positive_rating_threshold": 4.0,
+  "training_rows": 15000057,
+  "positive_training_pairs": 7479996,
+  "item_count": 13173,
+  "popularity_sha256": "088a477734f3760f3a9257ba5d5dffc6ee84d605263467ca08bca06155308e36"
+}

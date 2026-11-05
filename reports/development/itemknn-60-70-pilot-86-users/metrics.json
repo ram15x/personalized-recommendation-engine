@@ -1,0 +1,151 @@
+{
+  "run": "ItemKNN cosine retrieval, MovieLens 60/70 temporal replication",
+  "ratings_sha256": "9c85525758597dca76e8d98cebb9c13e018c2317b09a0878b6d383179526e385",
+  "train_cutoff_timestamp": 1288571552,
+  "validation_end_timestamp": 1421944985,
+  "train_rows": 15000057,
+  "validation_rows": 2500009,
+  "positive_rating_threshold": 4.0,
+  "positive_training_pairs": 7479996,
+  "training_users": 104690,
+  "positive_items_indexed": 13173,
+  "full_training_catalog_items": 14324,
+  "item_neighbors_per_item": 100,
+  "similarity": "cosine-normalized binary positive co-rating counts",
+  "user_score": "sum of item-item similarities from positive training history",
+  "all_validation_users_with_observed_ratings": 22110,
+  "sampled_training_positive_users": 2000,
+  "sampled_validation_users_with_observed_ratings": 86,
+  "evaluation_sample": {
+    "max_training_positive_users": 2000,
+    "seed": 42,
+    "selection": "uniform without replacement from training-positive user IDs, independent of validation ratings",
+    "neighbor_block_size": 64
+  },
+  "warm_users_with_observed_ratings": 86,
+  "warm_users_with_positive_targets": 85,
+  "warm_users_without_positive_targets": 1,
+  "eligible_target_pairs": 4711,
+  "target_pairs_in_catalog": 3664,
+  "target_pair_catalog_coverage": 0.7777541923158565,
+  "metric_convention": {
+    "positive_target_cohort": "macro user means among warm users with at least one unseen observed rating >= 4",
+    "all_observed_warm_user_cohort": "macro user means over all warm users with any held-out rating; users without a >=4 target receive zero recall/NDCG",
+    "unrated_candidate_outcomes": "unknown; excluded from labels"
+  },
+  "metrics": {
+    "itemknn_recall@10": 0.039223666189991305,
+    "itemknn_ndcg@10": 0.19054234693710081,
+    "popularity_recall@10": 0.03825102483012745,
+    "popularity_ndcg@10": 0.17382931125812315,
+    "itemknn_matched_recall@10": 0.046725391087217925,
+    "itemknn_matched_ndcg@10": 0.19104371215152846,
+    "popularity_matched_recall@10": 0.04464810867738676,
+    "popularity_matched_ndcg@10": 0.17440852625109496,
+    "itemknn_recall@100": 0.19293116611779598,
+    "popularity_recall@100": 0.14719488150318114,
+    "itemknn_matched_recall@100": 0.24078706744260345,
+    "popularity_matched_recall@100": 0.17407333035495884,
+    "itemknn_recall@500": 0.4365534374504245
+  },
+  "metrics_all_observed_warm_users": {
+    "itemknn_recall@10": 0.03876757704824723,
+    "itemknn_ndcg@10": 0.1883267382517857,
+    "popularity_recall@10": 0.03780624547163758,
+    "popularity_ndcg@10": 0.17180804019698218,
+    "itemknn_matched_recall@10": 0.04618207258620376,
+    "itemknn_matched_ndcg@10": 0.18882227363813858,
+    "popularity_matched_recall@10": 0.04412894462299854,
+    "popularity_matched_ndcg@10": 0.17238052013189617,
+    "itemknn_recall@100": 0.19068778046526344,
+    "popularity_recall@100": 0.1454833131136092,
+    "itemknn_matched_recall@100": 0.23798721782117785,
+    "popularity_matched_recall@100": 0.1720492218624593,
+    "itemknn_recall@500": 0.43147723468937316
+  },
+  "paired_user_bootstrap": {
+    "matched_recall@100": {
+      "left": "itemknn_matched_recall@100",
+      "right": "popularity_matched_recall@100",
+      "median_delta": 0.06692546606532213,
+      "ci95_low": 0.04034591658611113,
+      "ci95_high": 0.09203972065705306,
+      "users": 85,
+      "resamples": 2000,
+      "seed": 42
+    },
+    "matched_recall@10": {
+      "left": "itemknn_matched_recall@10",
+      "right": "popularity_matched_recall@10",
+      "median_delta": 0.002647963246329244,
+      "ci95_low": -0.014681081848070423,
+      "ci95_high": 0.015267107037266284,
+      "users": 85,
+      "resamples": 2000,
+      "seed": 42
+    },
+    "matched_ndcg@10": {
+      "left": "itemknn_matched_ndcg@10",
+      "right": "popularity_matched_ndcg@10",
+      "median_delta": 0.016952191191324982,
+      "ci95_low": -0.011770115741032894,
+      "ci95_high": 0.04354372727889075,
+      "users": 85,
+      "resamples": 2000,
+      "seed": 42
+    }
+  },
+  "paired_user_bootstrap_all_observed_warm_users": {
+    "matched_recall@100": {
+      "left": "itemknn_matched_recall@100",
+      "right": "popularity_matched_recall@100",
+      "median_delta": 0.06648131566301413,
+      "ci95_low": 0.040051303972520144,
+      "ci95_high": 0.09170544287647919,
+      "users": 86,
+      "resamples": 2000,
+      "seed": 42
+    },
+    "matched_recall@10": {
+      "left": "itemknn_matched_recall@10",
+      "right": "popularity_matched_recall@10",
+      "median_delta": 0.0027376463213827184,
+      "ci95_low": -0.014734161174687647,
+      "ci95_high": 0.015579212069735476,
+      "users": 86,
+      "resamples": 2000,
+      "seed": 42
+    },
+    "matched_ndcg@10": {
+      "left": "itemknn_matched_ndcg@10",
+      "right": "popularity_matched_ndcg@10",
+      "median_delta": 0.016414216623979513,
+      "ci95_low": -0.011435811359245247,
+      "ci95_high": 0.04468853861489137,
+      "users": 86,
+      "resamples": 2000,
+      "seed": 42
+    }
+  },
+  "official_final_10_percent_used": false,
+  "historical_80_90_window_used": false,
+  "no_model_training": true,
+  "limitations": [
+    "This fixed method was selected after inspecting the 50/60 development result; this 60/70 temporal replication is not an independent final test.",
+    "This evaluator selects all positive-history warm users with any observed validation rating; positive-target metrics are reported separately. The prior saved run used a future-positive-conditioned cohort and is unchanged.",
+    "Rating >= 4 is a preference proxy, not clicks or CTR.",
+    "Unrated items may be unknown preferences.",
+    "This experiment evaluates candidate retrieval only; no second-stage ranker or online experiment is measured."
+  ],
+  "candidate_pairs_export": {
+    "file": "candidate_pairs.jsonl.gz",
+    "sha256": "aef71477ed44eee192f64e157287b255a3534fc2ec304c5123fff063b0d1ad33",
+    "rows": 86,
+    "candidates_per_row": 500,
+    "observed_rating_target": "future explicit rating for candidate items only",
+    "unrated_candidate_handling": "unknown; excluded from ranker loss, not a negative",
+    "user_cohort": "positive-history warm users with any held-out observed rating; not filtered by future rating >= 4",
+    "training_cutoff_timestamp": 1288571552,
+    "label_window_end_timestamp": 1421944985
+  }
+}

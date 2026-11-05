@@ -1,0 +1,58 @@
+{
+  "dataset": "ml-latest-small-smoke",
+  "stage": "full-positive-training",
+  "seed": 42,
+  "epochs": 1,
+  "dimensions": 32,
+  "training_positive_rows": 39254,
+  "available_training_positive_rows": 39254,
+  "trained_users": 521,
+  "indexed_items": 5226,
+  "full_training_catalog_items": 7867,
+  "split": {
+    "train": 80668,
+    "validation": 10084,
+    "test": 10084
+  },
+  "train_before_timestamp": 1458635171,
+  "test_from_timestamp": 1498029450,
+  "candidate_policy": "Exact inner-product search over trained positive items; fill short lists with training popularity",
+  "cold_start_policy": "Popularity for users without a learned embedding",
+  "test_evaluated": false,
+  "history": {
+    "loss": [
+      1939.575927734375
+    ],
+    "regularization_loss": [
+      0
+    ],
+    "total_loss": [
+      1939.575927734375
+    ]
+  },
+  "validation": {
+    "all": {
+      "users": 62,
+      "recall@10": 0.04854724607582454,
+      "ndcg@10": 0.30710317412137594,
+      "popularity_recall@10": 0.0606695164484878,
+      "popularity_ndcg@10": 0.3085143118414461
+    },
+    "trained_users": {
+      "users": 21,
+      "recall@10": 0.0038467294884267124,
+      "ndcg@10": 0.029694020614241576,
+      "popularity_recall@10": 0.03963628963628964,
+      "popularity_ndcg@10": 0.03386023674016316
+    },
+    "fallback_users": {
+      "users": 41,
+      "recall@10": 0.07144263262058931,
+      "ndcg@10": 0.4491907893323472,
+      "popularity_recall@10": 0.07144263262058931,
+      "popularity_ndcg@10": 0.4491907893323472
+    },
+    "eligible_positive_users": 62,
+    "evaluation_user_limit": 0
+  }
+}

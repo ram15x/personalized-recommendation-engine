@@ -1,0 +1,13 @@
+name: "dcn_ranker"
+backend: "python"
+max_batch_size: 0
+input [
+  { name: "USER_ID" data_type: TYPE_INT64 dims: [ -1 ] },
+  { name: "ITEM_ID" data_type: TYPE_INT64 dims: [ -1 ] },
+  { name: "ITEMKNN_SCORE" data_type: TYPE_FP32 dims: [ -1 ] }
+]
+output [
+  { name: "RANK_SCORE" data_type: TYPE_FP32 dims: [ -1 ] },
+  { name: "SUPPORTED" data_type: TYPE_BOOL dims: [ -1 ] }
+]
+instance_group [{ kind: KIND_CPU count: 1 }]

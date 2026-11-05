@@ -1,0 +1,27 @@
+.venv/
+__pycache__/
+.pytest_cache/
+data/
+*.zip
+.venv-retrieval/
+.env
+*.sqlite
+*.sqlite-*
+__pycache__/
+.pytest_cache/
+
+# Research checkpoints, indexes, and user-level exports are local artifacts.
+# MovieLens terms prohibit public redistribution of the dataset; keep its raw
+# and derived files out of Git unless redistribution permission is obtained.
+reports/**/*.keras
+reports/**/*.h5
+reports/**/*.npz
+reports/**/*.npy
+reports/**/*.faiss
+reports/**/*.parquet
+reports/**/*.csv
+reports/**/*.jsonl
+reports/**/*.gz
+reports/**/*per_user*
+reports/**/*users.csv
+reports/**/trained_support.json

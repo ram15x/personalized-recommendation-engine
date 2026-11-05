@@ -1,0 +1,114 @@
+{
+  "evaluation": "inference-only candidate recall diagnostic",
+  "panel": "C:\\Users\\ramna\\OneDrive\\Desktop\\Projects\\Nexvia Internship\\Project-2\\reports\\retrieval-pilot\\validation_users.csv",
+  "panel_users": 2000,
+  "eligible_users": 2000,
+  "panel_reused_during_prior_development": true,
+  "official_test_used": false,
+  "training_or_downloads": false,
+  "target_definition": "unseen validation-period ratings >= 4; global temporal cutoffs from baseline report",
+  "candidate_cutoffs": [
+    100,
+    200,
+    500
+  ],
+  "retrieval_run": "C:\\Users\\ramna\\OneDrive\\Desktop\\Projects\\Nexvia Internship\\Project-2\\reports\\retrieval-pilot",
+  "retrieval_stage": "pilot",
+  "training_interactions": 500000,
+  "indexed_items": 12224,
+  "training_catalog_items": 34461,
+  "indexed_catalog_coverage": 0.35471982821160153,
+  "users_with_embedding": 528,
+  "users_without_embedding_use_popularity": 1472,
+  "retrieval_all_users": {
+    "users": 2000,
+    "relevant_user_item_pairs": 137725,
+    "recall@100": 0.2331146379906342,
+    "recall@200": 0.3101931711029537,
+    "recall@500": 0.44845981171169946
+  },
+  "popularity_all_users": {
+    "users": 2000,
+    "relevant_user_item_pairs": 137725,
+    "recall@100": 0.2514817799240735,
+    "recall@200": 0.3353982631004703,
+    "recall@500": 0.48928101471061364
+  },
+  "retrieval_trained_users": {
+    "users": 528,
+    "relevant_user_item_pairs": 18209,
+    "recall@100": 0.0444165300606019,
+    "recall@200": 0.0723950022966507,
+    "recall@500": 0.13596815784553537
+  },
+  "popularity_trained_users": {
+    "users": 528,
+    "relevant_user_item_pairs": 18209,
+    "recall@100": 0.11398903738423564,
+    "recall@200": 0.16786883562057722,
+    "recall@500": 0.2905939267808163
+  },
+  "retrieval_fallback_users": {
+    "users": 1472,
+    "relevant_user_item_pairs": 119516,
+    "recall@100": 0.30079982887858053,
+    "recall@200": 0.39549034034869285,
+    "recall@500": 0.560549209294128
+  },
+  "popularity_fallback_users": {
+    "users": 1472,
+    "relevant_user_item_pairs": 119516,
+    "recall@100": 0.30079982887858053,
+    "recall@200": 0.39549034034869285,
+    "recall@500": 0.560549209294128
+  },
+  "retrieval_item_vectors_sha256": "12f155efc605fe204726892111927127a2cb459145dc1725e2d8f545ed5e63bf",
+  "saved_faiss_index_sha256_not_loaded": "267bde9620a87040710f6d7e8f06573737228097075066ad9aa72ac54a002f58",
+  "panel_file_sha256": "65e7f9b32bd3808f7d710faa1e0cb3b57695c7306f8d7ae59f45d201def1bd4c",
+  "ratings_sha256": "9c85525758597dca76e8d98cebb9c13e018c2317b09a0878b6d383179526e385",
+  "scoring_note": "Scores were recomputed with NumPy float32 dot products from the saved user/item vectors. The saved FAISS binary was hashed but not loaded; binary-index equivalence is therefore not verified.",
+  "reused_validation_warning": "Development diagnostic only. The same user cohort was used by earlier candidate comparisons; these results are not an independent test.",
+  "all_users_retrieval_index_positive_coverage": {
+    "macro_user_average": 0.9069356473272212,
+    "positive_pair_weighted": 0.9275222363405337,
+    "users": 2000,
+    "positive_pairs": 137725
+  },
+  "trained_users_retrieval_index_positive_coverage": {
+    "macro_user_average": 0.7791311060315219,
+    "positive_pair_weighted": 0.7908177274973914,
+    "users": 528,
+    "positive_pairs": 18209
+  },
+  "users_with_prior_history": 570,
+  "true_cold_users": 1430,
+  "warm_users_without_embedding": 42,
+  "retrieval_warm_users": {
+    "users": 570,
+    "relevant_user_item_pairs": 19925,
+    "recall@100": 0.052009065966413706,
+    "recall@200": 0.08563961368989378,
+    "recall@500": 0.15482105357516626
+  },
+  "popularity_warm_users": {
+    "users": 570,
+    "relevant_user_item_pairs": 19925,
+    "recall@100": 0.11645517801356917,
+    "recall@200": 0.17407853297942572,
+    "recall@500": 0.2980533447994265
+  },
+  "retrieval_true_cold_users": {
+    "users": 1430,
+    "relevant_user_item_pairs": 117800,
+    "recall@100": 0.3053035722939948,
+    "recall@200": 0.3997005331487188,
+    "recall@500": 0.5655046313884994
+  },
+  "popularity_true_cold_users": {
+    "users": 1430,
+    "relevant_user_item_pairs": 117800,
+    "recall@100": 0.3053035722939948,
+    "recall@200": 0.3997005331487188,
+    "recall@500": 0.5655046313884994
+  }
+}

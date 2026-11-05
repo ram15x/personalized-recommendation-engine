@@ -1,0 +1,98 @@
+{
+  "run": "DCN-v1 explicit-rating diagnostic, fixed MovieLens 70/80 window",
+  "ratings_sha256": "9c85525758597dca76e8d98cebb9c13e018c2317b09a0878b6d383179526e385",
+  "split": {
+    "train_before_timestamp": 1421944985,
+    "validation_before_timestamp": 1466837400,
+    "train_rows": 17500066,
+    "validation_rows": 2500010,
+    "train_sample_rows": 500000,
+    "validation_sample_users": 2000,
+    "validation_sample_rows": 252294,
+    "min_validation_ratings_per_user": 5
+  },
+  "seed": 42,
+  "epochs_requested": 4,
+  "epochs_run": 4,
+  "batch_size": 4096,
+  "training_objective": "MSE on observed 0.5-5.0 star ratings",
+  "baseline": "clipped user mean + item mean - training global mean",
+  "rating_metrics": {
+    "baseline_clipped": {
+      "rmse": 1.037522679483207,
+      "mae": 0.7836662615343613,
+      "rows": 252294
+    },
+    "dcn_clipped_primary": {
+      "rmse": 1.1677232795233166,
+      "mae": 0.8714984964764771,
+      "rows": 252294
+    },
+    "dcn_raw_sensitivity": {
+      "rmse": 1.1686437187754621,
+      "mae": 0.8724396048446508,
+      "rows": 252294
+    }
+  },
+  "rating_ranking_on_observed_validation_items_only": {
+    "relevance": "observed rating >= 4",
+    "users_with_at_least_one_positive": 1995,
+    "all": {
+      "users": 1995,
+      "baseline_macro_recall_at_10": 0.2523555606573698,
+      "dcn_macro_recall_at_10": 0.24227372789875395,
+      "baseline_macro_ndcg_at_10": 0.7425614522400436,
+      "dcn_macro_ndcg_at_10": 0.7090319008187715
+    },
+    "warm": {
+      "users": 357,
+      "baseline_macro_recall_at_10": 0.41806081823906266,
+      "dcn_macro_recall_at_10": 0.39372829762702266,
+      "baseline_macro_ndcg_at_10": 0.7007007207894083,
+      "dcn_macro_ndcg_at_10": 0.6419876840861671
+    },
+    "cold": {
+      "users": 1638,
+      "baseline_macro_recall_at_10": 0.21624031221007772,
+      "dcn_macro_recall_at_10": 0.20926439859900306,
+      "baseline_macro_ndcg_at_10": 0.7516849449921051,
+      "dcn_macro_ndcg_at_10": 0.7236441019015187
+    },
+    "validation_users_with_training_history": 361,
+    "validation_users_without_training_history": 1639,
+    "validation_ratings_for_items_seen_in_training": 239071,
+    "validation_ratings_for_unseen_items": 13223
+  },
+  "limitations": [
+    "The 70/80 development window was reused in earlier Project 2 work.",
+    "Ranking is among items users actually rated in validation, not retrieved unseen candidates.",
+    "Observed ratings are selection-biased and unrated items are unknown.",
+    "This run does not establish candidate retrieval, end-to-end recommendation quality, CTR, or online lift.",
+    "The official final 10% was not used."
+  ],
+  "training_history": {
+    "loss": [
+      2.043865442276001,
+      0.7866483330726624,
+      0.7088087797164917,
+      0.6457894444465637
+    ],
+    "val_loss": [
+      1.5858625173568726,
+      1.4881083965301514,
+      1.46133291721344,
+      1.3657282590866089
+    ]
+  },
+  "checkpoint_sha256": "24b7c5c0ba8fbc20524a884e704d45e98c8a84109e7ab325dad431b8759378b8",
+  "code_sha256": {
+    "training_script": "d88409f06f7ff4a56a5dae0ee94d7adfd3f2b5d6bf057543d29f8b0a4da03428",
+    "ranker_module": "3da36ec9ab04a5763240e6ea2528ded27bd8770b8349520d71bc9e69cd5e8a1d"
+  },
+  "saved_artifacts": {
+    "training_user_ids.npy": "e870c09ee8be2028ffaa7af33766fd587437f13852c880b9811b211b5d87654c",
+    "training_item_ids.npy": "8fdef43307de440e107ee91cb562aba7305beff7b00d14bc54644406c56f207d",
+    "numeric_feature_mean.npy": "ea8d88646d71f35108782667fa3bf5348324e3c8e81adda3a2495bbcc687ca16",
+    "numeric_feature_scale.npy": "4c785104e59bdb19ceca0d22b936a30a80741c29515ab67a4ccda1d2daa90d13"
+  }
+}

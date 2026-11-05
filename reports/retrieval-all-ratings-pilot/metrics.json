@@ -1,0 +1,66 @@
+{
+  "dataset": "ml-25m",
+  "stage": "pilot",
+  "seed": 42,
+  "epochs": 3,
+  "dimensions": 32,
+  "training_interactions": 500000,
+  "available_training_interactions": 20000076,
+  "interaction_mode": "all-ratings",
+  "trained_users": 106520,
+  "indexed_items": 14226,
+  "full_training_catalog_items": 34461,
+  "split": {
+    "train": 20000076,
+    "validation": 2500009,
+    "test": 2500010
+  },
+  "train_before_timestamp": 1466837400,
+  "test_from_timestamp": 1515033908,
+  "candidate_policy": "Exact inner-product search over sampled interaction items; fill short lists with training popularity",
+  "training_objective": "One diagonal positive per row; mask same-user and same-item in-batch pairs as negatives.",
+  "cold_start_policy": "Popularity for users without a learned embedding",
+  "test_evaluated": false,
+  "history": {
+    "loss": [
+      5.6622514724731445,
+      5.662414073944092,
+      5.66215705871582
+    ],
+    "regularization_loss": [
+      0,
+      0,
+      0
+    ],
+    "total_loss": [
+      5.6622514724731445,
+      5.662414073944092,
+      5.66215705871582
+    ]
+  },
+  "validation": {
+    "all": {
+      "users": 2000,
+      "recall@10": 0.05193311157895076,
+      "ndcg@10": 0.2737073967392122,
+      "popularity_recall@10": 0.05652236616719913,
+      "popularity_ndcg@10": 0.29081231949479364
+    },
+    "trained_users": {
+      "users": 516,
+      "recall@10": 0.00037084142450256657,
+      "ndcg@10": 0.0018364300638474488,
+      "popularity_recall@10": 0.018158649906085386,
+      "popularity_ndcg@10": 0.06813458027927934
+    },
+    "fallback_users": {
+      "users": 1484,
+      "recall@10": 0.06986177155179124,
+      "ndcg@10": 0.3682393501115089,
+      "popularity_recall@10": 0.06986177155179124,
+      "popularity_ndcg@10": 0.3682393501115089
+    },
+    "eligible_positive_users": 17847,
+    "evaluation_user_limit": 2000
+  }
+}

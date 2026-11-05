@@ -1,0 +1,78 @@
+{
+  "run": "DCN-v1 explicit-rating diagnostic, fixed MovieLens 70/80 window",
+  "ratings_sha256": "9c85525758597dca76e8d98cebb9c13e018c2317b09a0878b6d383179526e385",
+  "split": {
+    "train_before_timestamp": 1421944985,
+    "validation_before_timestamp": 1466837400,
+    "train_rows": 17500066,
+    "validation_rows": 2500010,
+    "train_sample_rows": 500000,
+    "validation_sample_users": 2000,
+    "validation_sample_rows": 252294,
+    "min_validation_ratings_per_user": 5
+  },
+  "seed": 42,
+  "epochs_requested": 4,
+  "epochs_run": 4,
+  "batch_size": 4096,
+  "training_objective": "MSE on observed 0.5-5.0 star ratings",
+  "baseline": "clipped user mean + item mean - training global mean",
+  "rating_metrics": {
+    "baseline": {
+      "rmse": 1.0973453092605816,
+      "mae": 0.8561311348218731,
+      "rows": 252294
+    },
+    "dcn": {
+      "rmse": 1.1686437187754621,
+      "mae": 0.8724396048446508,
+      "rows": 252294
+    }
+  },
+  "rating_ranking_on_observed_validation_items_only": {
+    "relevance": "observed rating >= 4",
+    "users_with_at_least_one_positive": 1995,
+    "validation_users_with_training_history": 361,
+    "validation_users_without_training_history": 1639,
+    "validation_ratings_for_items_seen_in_training": 239071,
+    "validation_ratings_for_unseen_items": 13223,
+    "baseline_macro_recall_at_10": 0.23730939969962536,
+    "dcn_macro_recall_at_10": 0.24228153963588903,
+    "baseline_macro_ndcg_at_10": 0.6752915936049494,
+    "dcn_macro_ndcg_at_10": 0.7050078209552944
+  },
+  "limitations": [
+    "The 70/80 development window was reused in earlier Project 2 work.",
+    "Ranking is among items users actually rated in validation, not retrieved unseen candidates.",
+    "Observed ratings are selection-biased and unrated items are unknown.",
+    "This run does not establish candidate retrieval, end-to-end recommendation quality, CTR, or online lift.",
+    "The official final 10% was not used."
+  ],
+  "training_history": {
+    "loss": [
+      2.043865442276001,
+      0.7866483330726624,
+      0.7088087797164917,
+      0.6457894444465637
+    ],
+    "val_loss": [
+      1.5858625173568726,
+      1.4881083965301514,
+      1.46133291721344,
+      1.3657282590866089
+    ]
+  },
+  "checkpoint_sha256": "b12045c2e2a233c5e24862b4ddb4830101b3d0dac9d71fa21694c0a88608377f",
+  "code_sha256": {
+    "training_script": "5f549f0998128214820527ae30a79b9d6c56e9cd7ef2efec9007bdfdcc3e5790",
+    "ranker_module": "3da36ec9ab04a5763240e6ea2528ded27bd8770b8349520d71bc9e69cd5e8a1d"
+  },
+  "saved_artifacts": {
+    "training_user_ids.npy": "e870c09ee8be2028ffaa7af33766fd587437f13852c880b9811b211b5d87654c",
+    "training_item_ids.npy": "8fdef43307de440e107ee91cb562aba7305beff7b00d14bc54644406c56f207d",
+    "numeric_feature_mean.npy": "ea8d88646d71f35108782667fa3bf5348324e3c8e81adda3a2495bbcc687ca16",
+    "numeric_feature_scale.npy": "4c785104e59bdb19ceca0d22b936a30a80741c29515ab67a4ccda1d2daa90d13"
+  },
+  "audit_status": "SUPERSEDED: the initial comparator incorrectly replaced ratings with the global mean whenever either user or item was unseen. Use only the corrected run in the sibling corrected directory.",
+  "cleanup_note": "Superseded comparison. Duplicate model checkpoint and sidecar files were removed; this small JSON remains only to document why its metrics must not be used."
+}
