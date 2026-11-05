@@ -166,3 +166,11 @@ Installed `pyspark==4.0.5` and `py4j==0.10.9.9` in an isolated Python 3.10 verif
 - The first full run used pytest's default temp location and produced **35 passed, 1 skipped, 28 setup errors** because the sandbox process could not access `C:\Users\ramna\AppData\Local\Temp\pytest-of-ramna` (`PermissionError: [WinError 5] Access is denied`). This was an environment temp-path failure, not a test assertion failure.
 - The rerun confined pytest temporary files to the temporary venv directory: `python -m pytest -q -p no:cacheprovider --basetemp <TEMP>\nexvia-p2-faiss-verify\pytest-temp`. Result: **63 passed, 1 skipped in 13.56 seconds**. The skipped module requires PySpark, which is absent from the local system environment.
 - This verifies the collected non-Spark suite with the pinned FAISS/TFRS imports in an isolated environment. The Spark module and online A/B outcomes remain outside this run.
+## Follow-up cached Docker HTTP check — 5 November 2026
+
+- Docker Desktop server version reported `29.8.0`. The local images `project-2-api:latest` and `redis:7-alpine` were already cached (314,413,315 and 60,665,158 bytes). No build or image pull was used.
+- Command: `docker compose up -d --no-build --pull never --wait`. `/health` returned `status=ok`, `catalog_items=13173`, `itemknn_loaded=true`, `redis_cache_enabled=true`, and `redis_last_error=null`. The experimental DCN, two-tower, and feature ranker were not loaded; this Docker demo serves the ItemKNN path and fallbacks.
+- `GET /` returned HTTP 200. `POST /recommend` with `history_item_ids=[318]` returned `strategy=itemknn_cosine`, IDs `296, 593, 50, 527, 356`, and excluded 318. A Drama preference returned five items tagged Drama with `strategy=user_genre_content`. An empty request returned five items with `strategy=training_period_popularity` and `personalized=false`.
+- `docker compose down` exited 0 and removed the API and Redis containers and project network.
+- The first attempt's PowerShell check script stopped before route assertions because it assigned to the reserved `$HOME` variable. Its `finally` block still stopped both containers. The corrected rerun above passed.
+- This confirms the cached local baseline demo HTTP routes only; it does not verify the experimental learned models, public API hosting, Airflow task execution, or online A/B outcomes.
