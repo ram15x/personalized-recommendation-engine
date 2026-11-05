@@ -25,3 +25,4 @@ reports/**/*.gz
 reports/**/*per_user*
 reports/**/*users.csv
 reports/**/trained_support.json
+.codex-presentation-build/
