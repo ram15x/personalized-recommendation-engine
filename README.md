@@ -15,10 +15,10 @@ The local Git repository has committed local history on main and no configured r
 For the CPU demo, install Docker Desktop and start it, then run from this folder:
 
 ```powershell
-docker compose up --build
+docker compose up --build --wait
 ```
 
-Open `http://127.0.0.1:8810/`. Stop the services with `docker compose down`. The demo uses the included movie catalog and precomputed ItemKNN and popularity artifacts; it does not train a model or read the full ratings file. See **Docker demo (CPU)** below for the artifact paths and limitations.
+Compose waits for the API health check and Redis before returning. Open `http://127.0.0.1:8810/`. Stop the services with `docker compose down`. The demo uses the included movie catalog and precomputed ItemKNN and popularity artifacts; it does not train a model or read the full ratings file. See **Docker demo (CPU)** below for the artifact paths and limitations.
 
 For native API use, install Python 3.10, create a virtual environment, and install only the serving requirements:
 
@@ -72,7 +72,7 @@ The service rejects missing or inconsistent artifacts at startup and returns an 
 Docker Compose starts the API and Redis and loads the saved sparse ItemKNN matrix plus popularity counts built at the same 60% training cutoff. No GPU or training is needed to run it. The build context includes only the movie catalog, small precomputed tables, and ItemKNN files; it excludes the 678 MB `ratings.csv`. Serving uses NumPy and does not require pandas or SciPy.
 
 ```powershell
-docker compose up --build
+docker compose up --build --wait
 ```
 
 Open `http://127.0.0.1:8810/`. Movie IDs entered with no genre preferences are treated as liked/highly rated history; seen items are excluded. Preferred genres select the explicit metadata fallback. With no usable history or preferences, the API uses training-period popularity. The Docker ItemKNN artifact is a 60/70 development candidate selected after examining earlier results, so it is not independent validation and does not establish production performance. The Compose demo does not serve the TFRS/FAISS two-tower or DCN ranker.
