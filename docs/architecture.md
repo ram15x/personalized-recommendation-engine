@@ -59,7 +59,7 @@ The FastAPI service implements popularity, user-supplied genre matching, and opt
 | Wide & Deep ranker | Not present | No second deep model will be added before the DCN path has a measured, time-safe comparison. |
 | Redis | Optional Redis-py response cache through `NEXVIA_REDIS_URL` | Versioned keys include request inputs and artifact/catalog hashes; 300-second TTL; startup ping when configured; fail-open cache operations with health error reporting. Fake-client tests and an actual Redis-backed Docker Compose run passed; `/health` reported cache enabled without error. |
 | Triton | Experimental Python-backend adapter and model configuration | Stub tests passed; real Triton startup, model loading and inference are NOT VERIFIED. See `docs/triton.md`. |
-| Airflow | Manual-only DAG and retraining helper | Airflow 3 standalone started and listed the DAG without import errors; the DAG was paused and no task ran. See `docs/airflow.md`. |
+| Airflow | Manual-only DAG and retraining helper | Airflow 3 standalone started and listed the DAG without import errors; the actual-dataset preflight helper passed. The DAG was paused and no task or training ran. See `docs/airflow.md`. |
 | Online A/B and CTR | Opt-in local assignment, served-response and click-recording prototype | Synthetic checks passed; no real-user experiment or CTR result exists. See `docs/experiment.md`. |
 
 ## Saved two-stage compatibility check
