@@ -1,0 +1,7 @@
+services:
+  - type: web
+    runtime: static
+    name: movie-recommendation-research
+    branch: main
+    buildCommand: "true"
+    staticPublishPath: ./site
