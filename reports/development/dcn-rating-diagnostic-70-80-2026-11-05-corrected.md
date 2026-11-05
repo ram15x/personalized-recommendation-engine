@@ -41,7 +41,7 @@ Training and validation MSE both decreased over four epochs (train `2.0439, 0.78
 - Model: `scripts/dcn_ranker.py`
 - Run report: `reports/development/dcn-rating-diagnostic-70-80-2026-11-05-clipped/metrics.json`
 - Per-user metrics: `reports/development/dcn-rating-diagnostic-70-80-2026-11-05-clipped/per_user_metrics.csv`
-- Saved DCN: `reports/development/dcn-rating-diagnostic-70-80-2026-11-05-clipped/dcn_rating_ranker.keras`
+- Saved DCN: removed during project cleanup because this diagnostic checkpoint was rejected; the metrics and per-user evaluation artifacts remain available in this run directory.
 - Checkpoint SHA-256: `24b7c5c0ba8fbc20524a884e704d45e98c8a84109e7ab325dad431b8759378b8`
 - Supporting user/item ID mappings and numeric normalization arrays are in the same run directory; their hashes are recorded in `metrics.json`.
 

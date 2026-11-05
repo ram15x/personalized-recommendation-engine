@@ -113,7 +113,7 @@ Download: https://files.grouplens.org/datasets/movielens/ml-25m.zip
 
 Keep the supplied README with the data and review its usage terms before sharing datasets. Raw data is excluded from Git. Share download instructions rather than copying the dataset into the final public folder until its terms have been checked.
 
-`ml-latest-small` is only a development fixture, downloaded separately from GroupLens. Its scores are not results on MovieLens 25M.
+Two historical smoke reports use GroupLens `ml-latest-small`; that small raw fixture is no longer kept in this folder. Those smoke metrics are not results on MovieLens 25M. The retained raw dataset is `ml-25m`.
 
 ## What the baseline measures
 

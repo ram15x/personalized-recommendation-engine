@@ -63,7 +63,7 @@ With PySpark 4.0.5 installed, the focused Windows Spark tests returned 1 passed 
 | Tests | test_baseline.py, test_retrieval.py, test_recommendation_api.py, test_spark_prepare_features.py, test_candidate_export.py, test_itemknn_builder.py | Windows full run: 64 passed, 2 Spark writer failures; excluding the Spark module: 63 passed. The full Spark feature job itself passed on Linux with Spark 4.0.5 against the local MovieLens 25M source. Exact results are in reports/development/end-to-end-verification-2026-11-05.md. |
 | Setup and limitations | `README.md`, `docs/RETRIEVAL.md`, `docs/experiment-notes.md` | Documentation exists |
 
-The local MovieLens 25M `ratings.csv` is 678,260,987 bytes. The smaller `ml-latest-small` fixture is also present. No data was downloaded or changed during this audit.
+The local MovieLens 25M `ratings.csv` is 678,260,987 bytes. A separate 2.8 MB `ml-latest-small` development fixture was removed during Project 2 cleanup; two historical smoke metric files remain and are labeled as small-dataset results. No main MovieLens data was removed.
 
 ## What is missing or not established
 
