@@ -16,6 +16,7 @@ __pycache__/
 reports/**/*.keras
 reports/**/*.h5
 reports/**/*.npz
+reports/**/triton_numpy_weights.npz.sha256
 reports/**/*.npy
 reports/**/*.faiss
 reports/**/*.parquet

@@ -9,12 +9,12 @@ import triton_python_backend_utils as pb_utils
 class TritonPythonModel:
     def initialize(self, args):
         # The project must be on PYTHONPATH and its saved artifact mounted.
-        from scripts.candidate_ranker_inference import CandidateRanker
+        from scripts.triton_numpy_ranker import NumpyCandidateRanker
 
         directory = os.environ.get("NEXVIA_EXPERIMENTAL_RANKER_DIR")
         if not directory:
             raise RuntimeError("NEXVIA_EXPERIMENTAL_RANKER_DIR must identify the saved ranker directory")
-        self.ranker = CandidateRanker.load(Path(directory))
+        self.ranker = NumpyCandidateRanker(Path(directory))
 
     def execute(self, requests):
         responses = []
