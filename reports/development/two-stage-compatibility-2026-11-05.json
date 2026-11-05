@@ -1,0 +1,24 @@
+{
+  "artifact_sha256": {
+    "reports\\retrieval-pilot\\embeddings.npz": "12f155efc605fe204726892111927127a2cb459145dc1725e2d8f545ed5e63bf",
+    "reports\\retrieval-pilot\\items.faiss": "267bde9620a87040710f6d7e8f06573737228097075066ad9aa72ac54a002f58",
+    "reports\\development\\dcn-itemknn-candidate-ranker-50-60-to-60-70-v1\\feature_mapping.npz": "b40e11cabce3cc1a5fc311ceaed58b3743ec73af69bf348e05b2fed8f38b3ade"
+  },
+  "retriever_users": 108155,
+  "ranker_users": 2000,
+  "shared_users": 1951,
+  "retriever_items": 12224,
+  "ranker_items": 6100,
+  "shared_items": 5272,
+  "candidates_per_user": 100,
+  "all_candidates_known_users": 0,
+  "known_candidate_fraction": 0.601563300871348,
+  "known_per_user_min": 16,
+  "known_per_user_median": 62.0,
+  "known_per_user_max": 99,
+  "limitations": [
+    "Raw FAISS top 100; no user-history filter was applied.",
+    "Vocabulary overlap is not recommendation quality or a model evaluation.",
+    "No ratings, labels, or held-out interactions were read."
+  ]
+}

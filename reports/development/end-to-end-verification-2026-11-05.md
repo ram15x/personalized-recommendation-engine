@@ -46,7 +46,7 @@ python -m pytest -q -p no:cacheprovider --basetemp <temporary-directory>
 - Triton and Airflow have prototype code, but their real runtimes were not started in this check.
 - A/B assignment and click-recording code has synthetic tests only. No real users, impressions, clicks, or CTR measurements are available.
 - No MovieLens Spark feature-table run was completed. No training or data download occurred in this verification pass.
-- The Project-2 folder has one local commit on `main`, but no configured GitHub remote. The local project is not synced to GitHub.
+- The Project-2 folder has two commits on `main`, but no configured GitHub remote. The local project is not synced to GitHub.
 - At inspection, the folder contained 267 files totaling 891.92 MiB; data/ml-25m/ratings.csv accounted for 646.84 MiB. The ratings file is the source needed for the full offline experiments; the Docker demo excludes it from the build context.
 
 ## Status
@@ -59,5 +59,13 @@ The Compose check was repeated against the current folder on 5 November. `docker
 
 The native API was also started with the saved retrieval, ItemKNN, and DCN artifacts. `/health` reported the two-tower model, ranker, and experiment store loaded. A live `/experimental/two-tower` request for MovieLens development user 139 returned five retrieved items with `strategy=experimental_two_tower` and `reason=unknown_items`; the DCN did not rerank that set because its training support did not cover every retrieved item. The live `/experimental/ab/recommend` endpoint assigned one synthetic participant to each arm: A used `itemknn_cosine`, B used `experimental_dcn`. One synthetic click was sent for the first item in each response, and `/experimental/ab/summary` returned five item positions and one click per arm (item CTR 0.2 each). This verifies endpoint plumbing only. It is not real user behavior, an online result, or a valid CTR estimate. The temporary SQLite event database was removed after the smoke check.
 
-Fresh test reruns on the current folder: the non-Spark suite returned **63 passed in 17.96 seconds**. The Spark module returned **1 passed, 2 failed**; the two Parquet-writing tests fail with `HADOOP_HOME and hadoop.home.dir are unset` and the Hadoop Windows `winutils.exe` requirement. No full MovieLens Spark job was run. The local repository now has one commit on `main`; no remote was configured and nothing was published to GitHub.
+Fresh test reruns on the current folder: the non-Spark suite returned **63 passed in 17.96 seconds**. The Spark module returned **1 passed, 2 failed**; the two Parquet-writing tests fail with `HADOOP_HOME and hadoop.home.dir are unset` and the Hadoop Windows `winutils.exe` requirement. No full MovieLens Spark job was run. The local repository now has two commits on `main`; no remote was configured and nothing was published to GitHub.
+
+## Two-stage candidate support audit
+
+`reports/development/two-stage-compatibility-2026-11-05.json` records a read-only comparison between the saved `reports/retrieval-pilot` FAISS index and the trained item support in the pointwise candidate DCN. The audit found 1,951 shared users, 5,272 shared items, and a mean supported fraction of 0.6016 across the raw top 100. Per-user supported counts ranged from 16 to 99, with a median of 62; no shared user had all 100 supported. It did not apply seen-item filtering, read ratings, or measure ranking quality. The API's all-candidate support guard therefore avoids mixing scored and unscored candidates, but the audit does not prove a candidate-filtering change would improve recommendations.
+
+## Same-day Docker recheck
+
+Using the already-cached `project-2-api` and `redis:7-alpine` images with `docker compose up -d --no-build`, live HTTP returned `/health` status `ok`, catalog size 13,173, ItemKNN loaded, and Redis cache enabled. `GET /` returned HTTP 200. `POST /recommend` for history item 318 returned five recommendations with strategy `itemknn_cosine` and excluded 318. A Drama-preference request returned the `user_genre_content` strategy and all five results matched Drama. An empty request returned five results using `training_period_popularity`. The API, Redis container, and Compose network were removed with `docker compose down --remove-orphans`. No images or data were downloaded.
 
