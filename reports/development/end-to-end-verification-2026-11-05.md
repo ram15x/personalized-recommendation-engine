@@ -45,13 +45,13 @@ python -m pytest -q -p no:cacheprovider --basetemp <temporary-directory>
 - Learned-model comparisons and ItemKNN metrics use development panels reused during model work. They are not independent test results and do not establish online lift.
 - At the time of this initial check, Triton and Airflow runtimes were not started. The Airflow follow-up below supersedes the Airflow portion; Triton remains unverified.
 - A/B assignment and click-recording code has synthetic tests only. No real users, impressions, clicks, or CTR measurements are available.
-- No MovieLens Spark feature-table run was completed. No training or data download occurred in this verification pass.
+- No MovieLens Spark feature-table run was completed during the initial check. The full job was run in the follow-up below. No model training or MovieLens data download occurred.
 - At the time of this verification run, before the public repository was created, the Project-2 folder had local history but no configured GitHub remote. The public release was published later; see the current README and requirements status.
 - At inspection, the folder contained 267 files totaling 891.92 MiB; data/ml-25m/ratings.csv accounted for 646.84 MiB. The ratings file is the source needed for the full offline experiments; the Docker demo excludes it from the build context.
 
 ## Status
 
-The local Docker demo and its three user-facing recommendation strategies are verified over HTTP. The entire assignment is not complete: Spark runtime validation, Triton inference, execution of an Airflow retraining task, genuine online A/B measurement, presentation, reflection, and portal submission remain outstanding. Do not describe this as production-ready or as a proven improvement over an independent test set.
+The local Docker demo and its three user-facing recommendation strategies are verified over HTTP. The full Spark feature-preparation job is now also verified in Linux on the local 25M source. The entire assignment is not complete: Triton inference, execution of an Airflow retraining task, genuine online A/B measurement, presentation, reflection, and portal submission remain outstanding. Do not describe this as production-ready or as a proven improvement over an independent test set.
 
 ## Additional current-state checks
 
@@ -59,7 +59,7 @@ The Compose check was repeated against the current folder on 5 November. `docker
 
 The native API was also started with the saved retrieval, ItemKNN, and DCN artifacts. `/health` reported the two-tower model, ranker, and experiment store loaded. A live `/experimental/two-tower` request for MovieLens development user 139 returned five retrieved items with `strategy=experimental_two_tower` and `reason=unknown_items`; the DCN did not rerank that set because its training support did not cover every retrieved item. The live `/experimental/ab/recommend` endpoint assigned one synthetic participant to each arm: A used `itemknn_cosine`, B used `experimental_dcn`. One synthetic click was sent for the first item in each response, and `/experimental/ab/summary` returned five item positions and one click per arm (item CTR 0.2 each). This verifies endpoint plumbing only. It is not real user behavior, an online result, or a valid CTR estimate. The temporary SQLite event database was removed after the smoke check.
 
-Fresh test reruns on the current folder: the non-Spark suite returned **63 passed in 17.96 seconds**. The Spark module returned **1 passed, 2 failed**; the two Parquet-writing tests fail with `HADOOP_HOME and hadoop.home.dir are unset` and the Hadoop Windows `winutils.exe` requirement. No full MovieLens Spark job was run. At the time of this test run, no GitHub remote had been configured. The current public repository and later synchronization are recorded in `docs/requirements-status.md`.
+Fresh test reruns on the current folder: the non-Spark suite returned **63 passed in 17.96 seconds**. The Spark module returned **1 passed, 2 failed**; the two Parquet-writing tests fail with `HADOOP_HOME and hadoop.home.dir are unset` and the Hadoop Windows `winutils.exe` requirement. The full MovieLens Spark job was not part of that Windows pytest run; it passed in the Linux follow-up below. At the time of this test run, no GitHub remote had been configured. The current public repository and later synchronization are recorded in `docs/requirements-status.md`.
 
 ## Two-stage candidate support audit
 
@@ -76,4 +76,25 @@ On 5 November, the official `apache/airflow:slim-3.3.1-python3.12` image was pul
 Triton was not run. The NVIDIA registry manifest for `nvcr.io/nvidia/tritonserver:25.10-py3-min` totals about 4.5 GB of compressed image layers; the `26.10-py3` manifest totals about 8.8 GB. No Triton image was downloaded. The Python backend adapter therefore remains unverified in a Triton server. Its contract tests do not establish runtime inference.
 
 The full suite was rerun on 5 November from the existing Python 3.10 verification environment: **64 passed, 2 failed**. Both failures are Spark Parquet-write tests on Windows; the errors report missing `HADOOP_HOME`/`hadoop.home.dir` and `winutils.exe`. No new training or dataset download occurred.
+
+## Full Spark 4.0.5 feature-preparation run
+
+The project script then ran against the already-local full MovieLens 25M CSVs in the official `apache/spark:4.0.5` Linux image. Docker was capped at 6 GB RAM and 6 CPUs; Spark ran with `local[6]` and a 5 GB driver. It completed successfully and reported: **12,500,047** training interactions, **2,500,010** validation interactions, **89,881** training users, **9,659** training items, and **9,659** catalog rows. It wrote **97,231,652 bytes** across the Parquet tables. The default 60/70 temporal development window was used; this does not train a model or produce recommendation metrics.
+
+The command was equivalent to:
+
+```powershell
+docker run --rm --platform linux/amd64 --memory 6g --cpus 6 `
+  -v "<Project-2 folder>:/opt/project:ro" `
+  -v "<temporary output folder>:/output" `
+  -e SPARK_LOCAL_HOSTNAME=localhost `
+  --entrypoint /opt/spark/bin/spark-submit apache/spark:4.0.5 `
+  --master 'local[6]' --driver-memory 5g `
+  /opt/project/scripts/spark_prepare_features.py `
+  --ratings /opt/project/data/ml-25m/ratings.csv `
+  --movies /opt/project/data/ml-25m/movies.csv `
+  --output /output/features --master 'local[6]'
+```
+
+A separate 5-row fixture passed in Spark 4.0.1, and a duplicate-pair fixture correctly failed with `Duplicate user/item rows found`, leaving neither the final output nor a staging folder. The temporary full output and both pulled Spark image tags were removed after verification. The two Spark pytest writer cases still fail when run natively on Windows.
 
